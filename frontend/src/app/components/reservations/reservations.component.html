@@ -1,0 +1,154 @@
+<div class="reservations-container">
+  <div class="header">
+    <h1>Gestión de Reservas</h1>
+    <button class="btn btn-primary" (click)="showAddForm = true" *ngIf="!showAddForm">
+      Nueva Reserva
+    </button>
+  </div>
+
+  <!-- Formulario de agregar/editar -->
+  <div class="form-container" *ngIf="showAddForm">
+    <h2>{{ editingReservation ? 'Editar Reserva' : 'Nueva Reserva' }}</h2>
+    <form (ngSubmit)="editingReservation ? updateReservation() : addReservation()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="customerId">Cliente:</label>
+          <select 
+            id="customerId" 
+            [(ngModel)]="editingReservation ? editingReservation.customerId : newReservation.customerId" 
+            name="customerId" 
+            required>
+            <option value="">Seleccionar cliente</option>
+            <option *ngFor="let customer of customers" [value]="customer.id">
+              {{ customer.name }} - {{ customer.email }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="roomId">Habitación:</label>
+          <select 
+            id="roomId" 
+            [(ngModel)]="editingReservation ? editingReservation.roomId : newReservation.roomId" 
+            name="roomId" 
+            required>
+            <option value="">Seleccionar habitación</option>
+            <option *ngFor="let room of rooms" [value]="room.id">
+              {{ room.number }} - {{ room.type }} (${{ room.price }})
+            </option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="checkIn">Check-in:</label>
+          <input 
+            type="datetime-local" 
+            id="checkIn" 
+            [(ngModel)]="editingReservation ? editingReservation.checkIn : newReservation.checkIn" 
+            name="checkIn" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="checkOut">Check-out:</label>
+          <input 
+            type="datetime-local" 
+            id="checkOut" 
+            [(ngModel)]="editingReservation ? editingReservation.checkOut : newReservation.checkOut" 
+            name="checkOut" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="totalPrice">Precio Total:</label>
+          <input 
+            type="number" 
+            id="totalPrice" 
+            [(ngModel)]="editingReservation ? editingReservation.totalPrice : newReservation.totalPrice" 
+            name="totalPrice" 
+            min="0" 
+            step="0.01" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="status">Estado:</label>
+          <select 
+            id="status" 
+            [(ngModel)]="editingReservation ? editingReservation.status : newReservation.status" 
+            name="status" 
+            required>
+            <option *ngFor="let status of reservationStatuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="notes">Notas:</label>
+        <textarea 
+          id="notes" 
+          [(ngModel)]="editingReservation ? editingReservation.notes : newReservation.notes" 
+          name="notes" 
+          rows="3"></textarea>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          {{ editingReservation ? 'Actualizar' : 'Crear' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Lista de reservas -->
+  <div class="reservations-list">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Habitación</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reservation of reservations">
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.customer?.name || 'N/A' }}</td>
+            <td>{{ reservation.room?.number || 'N/A' }}</td>
+            <td>{{ reservation.checkIn | date:'short' }}</td>
+            <td>{{ reservation.checkOut | date:'short' }}</td>
+            <td>${{ reservation.totalPrice | number:'1.2-2' }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="'status-' + reservation.status">
+                {{ reservation.status }}
+              </span>
+            </td>
+            <td class="actions">
+              <button class="btn btn-sm btn-edit" (click)="editReservation(reservation)">
+                Editar
+              </button>
+              <button class="btn btn-sm btn-delete" (click)="deleteReservation(reservation.id!)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

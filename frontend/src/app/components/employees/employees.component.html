@@ -1,0 +1,144 @@
+<div class="employees-container">
+  <div class="header">
+    <h1>Gestión de Empleados</h1>
+    <button class="btn btn-primary" (click)="showAddForm = true" *ngIf="!showAddForm">
+      Agregar Empleado
+    </button>
+  </div>
+
+  <!-- Formulario de agregar/editar -->
+  <div class="form-container" *ngIf="showAddForm">
+    <h2>{{ editingEmployee ? 'Editar Empleado' : 'Agregar Nuevo Empleado' }}</h2>
+    <form (ngSubmit)="editingEmployee ? updateEmployee() : addEmployee()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Nombre:</label>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="editingEmployee ? editingEmployee.name : newEmployee.name" 
+            name="name" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input 
+            type="email" 
+            id="email" 
+            [(ngModel)]="editingEmployee ? editingEmployee.email : newEmployee.email" 
+            name="email" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone">Teléfono:</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            [(ngModel)]="editingEmployee ? editingEmployee.phone : newEmployee.phone" 
+            name="phone" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="position">Posición:</label>
+          <input 
+            type="text" 
+            id="position" 
+            [(ngModel)]="editingEmployee ? editingEmployee.position : newEmployee.position" 
+            name="position" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="salary">Salario:</label>
+          <input 
+            type="number" 
+            id="salary" 
+            [(ngModel)]="editingEmployee ? editingEmployee.salary : newEmployee.salary" 
+            name="salary" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="hireDate">Fecha de Contratación:</label>
+          <input 
+            type="date" 
+            id="hireDate" 
+            [(ngModel)]="editingEmployee ? editingEmployee.hireDate : newEmployee.hireDate" 
+            name="hireDate" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="editingEmployee ? editingEmployee.isActive : newEmployee.isActive" 
+            name="isActive">
+          Empleado Activo
+        </label>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          {{ editingEmployee ? 'Actualizar' : 'Agregar' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Lista de empleados -->
+  <div class="employees-list">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Posición</th>
+            <th>Salario</th>
+            <th>Fecha Contratación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees">
+            <td>{{ employee.id }}</td>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.phone }}</td>
+            <td>{{ employee.position }}</td>
+            <td>${{ employee.salary | number:'1.2-2' }}</td>
+            <td>{{ employee.hireDate | date:'short' }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="employee.isActive ? 'active' : 'inactive'">
+                {{ employee.isActive ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td class="actions">
+              <button class="btn btn-sm btn-edit" (click)="editEmployee(employee)">
+                Editar
+              </button>
+              <button class="btn btn-sm btn-delete" (click)="deleteEmployee(employee.id!)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

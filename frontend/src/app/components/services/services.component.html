@@ -1,0 +1,119 @@
+<div class="services-container">
+  <div class="header">
+    <h1>Gestión de Servicios</h1>
+    <button class="btn btn-primary" (click)="showAddForm = true" *ngIf="!showAddForm">
+      Agregar Servicio
+    </button>
+  </div>
+
+  <!-- Formulario de agregar/editar -->
+  <div class="form-container" *ngIf="showAddForm">
+    <h2>{{ editingService ? 'Editar Servicio' : 'Agregar Nuevo Servicio' }}</h2>
+    <form (ngSubmit)="editingService ? updateService() : addService()">
+      <div class="form-group">
+        <label for="name">Nombre del Servicio:</label>
+        <input 
+          type="text" 
+          id="name" 
+          [(ngModel)]="editingService ? editingService.name : newService.name" 
+          name="name" 
+          required>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Descripción:</label>
+        <textarea 
+          id="description" 
+          [(ngModel)]="editingService ? editingService.description : newService.description" 
+          name="description" 
+          rows="3" 
+          required></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="price">Precio:</label>
+          <input 
+            type="number" 
+            id="price" 
+            [(ngModel)]="editingService ? editingService.price : newService.price" 
+            name="price" 
+            min="0" 
+            step="0.01" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="duration">Duración (minutos):</label>
+          <input 
+            type="number" 
+            id="duration" 
+            [(ngModel)]="editingService ? editingService.duration : newService.duration" 
+            name="duration" 
+            min="1" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="editingService ? editingService.isActive : newService.isActive" 
+            name="isActive">
+          Servicio Activo
+        </label>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          {{ editingService ? 'Actualizar' : 'Agregar' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Lista de servicios -->
+  <div class="services-list">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Duración</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let service of services">
+            <td>{{ service.id }}</td>
+            <td>{{ service.name }}</td>
+            <td>{{ service.description }}</td>
+            <td>${{ service.price | number:'1.2-2' }}</td>
+            <td>{{ service.duration }} min</td>
+            <td>
+              <span class="status-badge" [ngClass]="service.isActive ? 'active' : 'inactive'">
+                {{ service.isActive ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td class="actions">
+              <button class="btn btn-sm btn-edit" (click)="editService(service)">
+                Editar
+              </button>
+              <button class="btn btn-sm btn-delete" (click)="deleteService(service.id!)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
