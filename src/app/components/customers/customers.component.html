@@ -1,60 +1,211 @@
 <div class="customers-container">
   <div class="header">
     <h1>Gestión de Clientes</h1>
-    <button class="btn btn-primary" (click)="showAddForm = true" *ngIf="!showAddForm">
+    <button class="btn btn-primary" (click)="showAddForm = true; clearMessages()" *ngIf="!showAddForm">
       Agregar Cliente
     </button>
   </div>
 
-  <!-- Formulario de agregar/editar -->
-  <div class="form-container" *ngIf="showAddForm">
-    <h2>{{ editingCustomer ? 'Editar Cliente' : 'Agregar Nuevo Cliente' }}</h2>
-    <form (ngSubmit)="editingCustomer ? updateCustomer() : addCustomer()">
-      <div class="form-group">
-        <label for="name">Nombre:</label>
-        <input 
-          type="text" 
-          id="name" 
-          [(ngModel)]="editingCustomer ? editingCustomer.name : newCustomer.name" 
-          name="name" 
-          required>
+  <!-- Mensajes de estado -->
+  <div class="messages" *ngIf="errorMessage || successMessage">
+    <div class="alert alert-error" *ngIf="errorMessage" (click)="errorMessage = ''">
+      {{ errorMessage }}
+      <span class="close">&times;</span>
+    </div>
+    <div class="alert alert-success" *ngIf="successMessage" (click)="successMessage = ''">
+      {{ successMessage }}
+      <span class="close">&times;</span>
+    </div>
+  </div>
+
+  <!-- Indicador de carga -->
+  <div class="loading" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <span>Cargando...</span>
+  </div>
+
+  <!-- Formulario de agregar cliente -->
+  <div class="form-container" *ngIf="showAddForm && !editingCustomer">
+    <h2>Agregar Nuevo Cliente</h2>
+    <form (ngSubmit)="addCustomer()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Nombre:</label>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="newCustomer.name" 
+            name="name" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="lastName">Apellido:</label>
+          <input 
+            type="text" 
+            id="lastName" 
+            [(ngModel)]="newCustomer.lastName" 
+            name="lastName" 
+            required>
+        </div>
       </div>
       
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input 
-          type="email" 
-          id="email" 
-          [(ngModel)]="editingCustomer ? editingCustomer.email : newCustomer.email" 
-          name="email" 
-          required>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input 
+            type="email" 
+            id="email" 
+            [(ngModel)]="newCustomer.email" 
+            name="email" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Teléfono:</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            [(ngModel)]="newCustomer.phone" 
+            name="phone" 
+            required>
+        </div>
       </div>
       
-      <div class="form-group">
-        <label for="phone">Teléfono:</label>
-        <input 
-          type="tel" 
-          id="phone" 
-          [(ngModel)]="editingCustomer ? editingCustomer.phone : newCustomer.phone" 
-          name="phone" 
-          required>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dpi">DPI:</label>
+          <input 
+            type="text" 
+            id="dpi" 
+            [(ngModel)]="newCustomer.dpi" 
+            name="dpi" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="status">Estado:</label>
+          <select 
+            id="status" 
+            [(ngModel)]="newCustomer.status" 
+            name="status" 
+            required>
+            <option value="active">Activo</option>
+            <option value="inactive">Inactivo</option>
+            <option value="suspended">Suspendido</option>
+          </select>
+        </div>
       </div>
       
       <div class="form-group">
         <label for="address">Dirección:</label>
         <textarea 
           id="address" 
-          [(ngModel)]="editingCustomer ? editingCustomer.address : newCustomer.address" 
+          [(ngModel)]="newCustomer.address" 
           name="address" 
           rows="3" 
           required></textarea>
       </div>
       
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary">
-          {{ editingCustomer ? 'Actualizar' : 'Agregar' }}
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          {{ isLoading ? 'Procesando...' : 'Agregar' }}
         </button>
-        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()" [disabled]="isLoading">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Formulario de editar cliente -->
+  <div class="form-container" *ngIf="showAddForm && editingCustomer">
+    <h2>Editar Cliente</h2>
+    <form (ngSubmit)="updateCustomer()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-name">Nombre:</label>
+          <input 
+            type="text" 
+            id="edit-name" 
+            [(ngModel)]="customerToUpdate.name" 
+            name="edit-name" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-lastName">Apellido:</label>
+          <input 
+            type="text" 
+            id="edit-lastName" 
+            [(ngModel)]="customerToUpdate.lastName" 
+            name="edit-lastName" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-email">Email:</label>
+          <input 
+            type="email" 
+            id="edit-email" 
+            [(ngModel)]="customerToUpdate.email" 
+            name="edit-email" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-phone">Teléfono:</label>
+          <input 
+            type="tel" 
+            id="edit-phone" 
+            [(ngModel)]="customerToUpdate.phone" 
+            name="edit-phone" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-dpi">DPI:</label>
+          <input 
+            type="text" 
+            id="edit-dpi" 
+            [(ngModel)]="customerToUpdate.dpi" 
+            name="edit-dpi" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-status">Estado:</label>
+          <select 
+            id="edit-status" 
+            [(ngModel)]="customerToUpdate.status" 
+            name="edit-status" 
+            required>
+            <option value="active">Activo</option>
+            <option value="inactive">Inactivo</option>
+            <option value="suspended">Suspendido</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="edit-address">Dirección:</label>
+        <textarea 
+          id="edit-address" 
+          [(ngModel)]="customerToUpdate.address" 
+          name="edit-address" 
+          rows="3" 
+          required></textarea>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          {{ isLoading ? 'Procesando...' : 'Actualizar' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()" [disabled]="isLoading">
           Cancelar
         </button>
       </div>
@@ -68,20 +219,30 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
+            <th>Nombre Completo</th>
             <th>Email</th>
             <th>Teléfono</th>
+            <th>DPI</th>
             <th>Dirección</th>
+            <th>Estado</th>
+            <th>Fecha Registro</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let customer of customers">
             <td>{{ customer.id }}</td>
-            <td>{{ customer.name }}</td>
+            <td>{{ customer.name }} {{ customer.lastName }}</td>
             <td>{{ customer.email }}</td>
             <td>{{ customer.phone }}</td>
+            <td>{{ customer.dpi }}</td>
             <td>{{ customer.address }}</td>
+            <td>
+              <span class="status-badge" [class]="'status-' + customer.status">
+                {{ customer.status | titlecase }}
+              </span>
+            </td>
+            <td>{{ customer.registrationDate | date:'dd/MM/yyyy' }}</td>
             <td class="actions">
               <button class="btn btn-sm btn-edit" (click)="editCustomer(customer)">
                 Editar

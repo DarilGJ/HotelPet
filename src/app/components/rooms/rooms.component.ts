@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Room, RoomCreateRequest } from '../../models/room.model';
+import { Room, RoomCreateRequest, RoomType } from '../../models/room.model';
 import { RoomService } from '../../services/room.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class RoomsComponent implements OnInit {
   
   newRoom: RoomCreateRequest = {
     number: '',
-    type: '',
+    type: RoomType.SINGLE,
     capacity: 1,
     price: 0,
     isAvailable: true,
@@ -84,7 +84,7 @@ export class RoomsComponent implements OnInit {
   private resetForm(): void {
     this.newRoom = {
       number: '',
-      type: '',
+      type: RoomType.SINGLE,
       capacity: 1,
       price: 0,
       isAvailable: true,

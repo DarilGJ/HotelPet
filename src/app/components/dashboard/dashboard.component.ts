@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,9 +21,21 @@ export class DashboardComponent implements OnInit {
     availableRooms: 0
   };
 
-  recentReservations: any[] = [];
+  recentReservations: any[] = [{
+    customer: {
+      name: 'Juan Perez'
+    },
+    room: {
+      number: '101'
+    },
+    checkIn: new Date(),
+    checkOut: new Date(),
+    status: 'confirmed'
+  }];
 
-  constructor() { }
+  constructor(
+    private dashboardService: DashboardService
+  ) { }
 
   ngOnInit(): void {
     this.loadDashboardData();
@@ -31,5 +44,13 @@ export class DashboardComponent implements OnInit {
   private loadDashboardData(): void {
     // TODO: Implementar carga de datos del dashboard
     // Aquí se cargarán las estadísticas y reservas recientes
+    console.log('Cargando datos del dashboard');
+    this.dashboardService.getDashboardStats().subscribe((stats) => {
+      console.log('Estadísticas del dashboard cargadas', stats);
+      this.stats = stats;
+    });
+    this.dashboardService.getRecentReservations().subscribe((reservations) => {
+      this.recentReservations = reservations;
+    });
   }
 }

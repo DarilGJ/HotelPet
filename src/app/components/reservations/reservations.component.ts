@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Reservation, ReservationCreateRequest, ReservationStatus } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation.service';
 import { Customer } from '../../models/customer.model';
@@ -37,13 +38,30 @@ export class ReservationsComponent implements OnInit {
   constructor(
     private reservationService: ReservationService,
     private customerService: CustomerService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.loadReservations();
     this.loadCustomers();
     this.loadRooms();
+    
+    // Check for query parameters from landing page
+    this.route.queryParams.subscribe(params => {
+      if (params['startDate'] || params['endDate'] || params['petType']) {
+        this.showAddForm = true;
+        if (params['startDate']) {
+          this.newReservation.checkIn = new Date(params['startDate']);
+        }
+        if (params['endDate']) {
+          this.newReservation.checkOut = new Date(params['endDate']);
+        }
+        if (params['petType']) {
+          this.newReservation.notes = `Tipo de mascota: ${params['petType']}`;
+        }
+      }
+    });
   }
 
   loadReservations(): void {

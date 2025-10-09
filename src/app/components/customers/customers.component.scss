@@ -31,6 +31,13 @@ h1 {
   font-weight: 400;
 }
 
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .form-group {
   margin-bottom: 1rem;
 }
@@ -43,7 +50,8 @@ h1 {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #ddd;
@@ -55,6 +63,29 @@ h1 {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  }
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  &.status-active {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  &.status-inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  &.status-suspended {
+    background-color: #fff3cd;
+    color: #856404;
   }
 }
 
@@ -165,6 +196,10 @@ tr:hover {
     align-items: stretch;
   }
 
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
   .table-container {
     overflow-x: auto;
   }
@@ -176,4 +211,74 @@ tr:hover {
   .actions {
     flex-direction: column;
   }
+}
+
+// Estilos para mensajes de estado
+.messages {
+  margin-bottom: 20px;
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+
+.alert-error {
+  background-color: #fee;
+  color: #c33;
+  border: 1px solid #fcc;
+}
+
+.alert-success {
+  background-color: #efe;
+  color: #363;
+  border: 1px solid #cfc;
+}
+
+// Estilos para indicador de carga
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #666;
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Estilos para botones deshabilitados
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

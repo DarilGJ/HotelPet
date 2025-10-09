@@ -1,0 +1,260 @@
+<div class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-display antialiased">
+  <header class="bg-card-light dark:bg-card-dark shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <span class="material-icons text-primary text-3xl mr-2">pets</span>
+        <span class="text-xl font-bold text-text-light dark:text-text-dark">PetStay</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a (click)="goToLogin()" class="text-sm text-gray-600 dark:text-gray-300 hover:text-primary cursor-pointer">Acceso Clientes</a>
+        <a (click)="goToReservations()" class="bg-primary text-white font-bold py-2 px-4 rounded-lg shadow-lg hover:bg-amber-600 transition duration-300 cursor-pointer">Reservar Ahora</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="relative h-[calc(100vh-68px)] min-h-[600px] flex items-center justify-center">
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClMrLMKZXRqVmjqpcGt_H5V8ofv2Ex2OzZkG05WosEZm34sip4Ou_wyL_6VwXFzonOpD59ze1i8VafYfwCY1M8Q7-rS2s4RFe8_UJXb03PkZ_d_uTLdu8bxFNsEllxlKDZ8jRd4TO-BwGTAh0ZdAK9V6kIMuBqEYBNUEoDjV3kpYcYn5-LsGQV1YnkhIHsG00c-1ig4fdHwO87nPbfYT6lAQfbyNE-k6Zg_xewLjL_6G0yB4a5Wl6Qf9YfMMCibFAnriNjOSJgD3CS');">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+      </div>
+      <div class="relative z-10 text-center text-white px-6">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">El Mejor Lugar para sus Mejores Amigos.</h1>
+        <p class="text-xl md:text-2xl font-semibold mb-6 drop-shadow-md">Cuidado 5 Estrellas para tu Mascota.</p>
+        <p class="text-lg md:text-xl mb-8 drop-shadow-md">Explora nuestras cómodas habitaciones y reserva la estancia perfecta en segundos.</p>
+        
+        <!-- Booking Form -->
+        <div class="bg-card-light dark:bg-card-dark p-6 md:p-8 rounded-xl shadow-2xl max-w-4xl mx-auto" id="booking-form">
+          <form (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div class="text-left">
+              <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1" for="start-date">Fecha de Inicio</label>
+              <input 
+                class="w-full p-3 border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark" 
+                id="start-date" 
+                type="date"
+                [(ngModel)]="bookingForm.startDate"
+                name="startDate"
+                required
+              />
+            </div>
+            <div class="text-left">
+              <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1" for="end-date">Fecha de Fin</label>
+              <input 
+                class="w-full p-3 border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark" 
+                id="end-date" 
+                type="date"
+                [(ngModel)]="bookingForm.endDate"
+                name="endDate"
+                required
+              />
+            </div>
+            <div class="text-left">
+              <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1" for="pet-type">Tipo de Mascota</label>
+              <select 
+                class="w-full p-3 border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark" 
+                id="pet-type"
+                [(ngModel)]="bookingForm.petType"
+                name="petType"
+              >
+                <option value="Perro">Perro</option>
+                <option value="Gato">Gato</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <button 
+              class="w-full bg-secondary text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-emerald-600 transition duration-300 col-span-1" 
+              type="submit"
+            >
+              Ver Disponibilidad y Precios
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 md:py-24 bg-background-light dark:bg-background-dark">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+          <div class="flex flex-col items-center">
+            <div class="bg-primary/20 p-4 rounded-full mb-4">
+              <span class="material-icons text-primary text-4xl">king_bed</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-2 text-text-light dark:text-text-dark">Habitaciones para Todos</h3>
+            <p class="text-gray-600 dark:text-gray-300">Espacios cómodos y seguros, diseñados para el bienestar de cada tipo de mascota.</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="bg-secondary/20 p-4 rounded-full mb-4">
+              <span class="material-icons text-secondary text-4xl">pets</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-2 text-text-light dark:text-text-dark">Servicios Adicionales de Lujo</h3>
+            <p class="text-gray-600 dark:text-gray-300">Paseos, adiestramiento, cuidados médicos y sesiones de juego personalizadas.</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="bg-primary/20 p-4 rounded-full mb-4">
+              <span class="material-icons text-primary text-4xl">shield</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-2 text-text-light dark:text-text-dark">Cámaras 24/7 y Personal Experto</h3>
+            <p class="text-gray-600 dark:text-gray-300">Monitoreo constante y un equipo de empleados cualificados para su tranquilidad.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section class="py-16 md:py-24 bg-card-light dark:bg-card-dark">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-text-light dark:text-text-dark">Nuestras Habitaciones: Elija el Lujo que se Merece</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-background-light dark:bg-background-dark rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300">
+            <img alt="Habitación suite para perros" class="w-full h-56 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsX_JmTt5HF8qKMnJ1WbExnlmrh4rYV_YhEDRxpxUsZtDfo266gSgZTSBlOfb5lLJVqv-RQdzMzF8nHkaqY7d_FQK3ixvpWNhayZXPFfqFmPcvQoNsF-zO23YImbj56Vu8qm8ZL-el9eIFghUub0ak0KLHsBMmwdrE1vQpAQvjcEXQtAkRMHEDevTe7Hvs-cuh80pke-IXF2r32YsAppGl-DqpZTGkymQHkg27BXNaZf3noWmFa89D0NrAu6pRctnCSNrzE98BTZrQ"/>
+            <div class="p-6">
+              <h3 class="text-2xl font-bold mb-2 text-text-light dark:text-text-dark">Suite Junior</h3>
+              <p class="text-lg font-semibold text-primary mb-2">$50.00 / noche</p>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">Un espacio acogedor con cama premium y juguetes interactivos. Ideal para estancias cortas.</p>
+              <button (click)="goToReservations()" class="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-amber-600 transition duration-300">Ver Detalles y Reservar</button>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300">
+            <img alt="Suite de lujo para gatos" class="w-full h-56 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD1TK0aSu_6ZTp_flcPkUDNvEahbap6lUAnLcI9V4fUNLsCKUVaLm1vjwCjtwy7aZN6gTLaj2Dt4JqVvdv3HwK_9yr6DslFamOIeZUgQbAfgWbCk_cfpo7WJ-XSx0-awwhVJpI766cTGsOrOk7Og9MpJG2zjEx-hIEtAwaVWxnt7rT4HGxGePhEk0xKb5VO3uVW4PzrJggfmE5UjuyEMmfKPHOZ_pajuWyA052PFfm7-4ELtIjIguXuFTx7SVLFXCHXllBee8E51Ap"/>
+            <div class="p-6">
+              <h3 class="text-2xl font-bold mb-2 text-text-light dark:text-text-dark">Suite Deluxe para Gatos</h3>
+              <p class="text-lg font-semibold text-primary mb-2">$65.00 / noche</p>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">Zona de juegos vertical, vistas a la ventana y una fuente de agua privada para el felino más exigente.</p>
+              <button (click)="goToReservations()" class="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-amber-600 transition duration-300">Ver Detalles y Reservar</button>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition duration-300">
+            <img alt="Suite Presidencial para mascotas" class="w-full h-56 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbI9yw0aecgqFMlstAjbGhBRXxatpyDbmm1A2s7X1nzeM0NaChAi8lC8lGelqOXN3U7c0wT-CLRG6K_9i9Dh1sQoc5pxR-hbWkV3RFuP0KoqjqVXSTznZ0sTGaAC3ujFCDUJiBfmIoGRC5gRPAesC7mwifEZhoEzwPeEEXVy0GBxDGvjmoQpp-TgRUQyNIrL-v98wJftldtpLHyK6L1KT7tibG4KSsxljTz95AshPcsNquwE-QB43FV7F45JoExV0INuaRMTQDGO_u"/>
+            <div class="p-6">
+              <h3 class="text-2xl font-bold mb-2 text-text-light dark:text-text-dark">Suite Presidencial</h3>
+              <p class="text-lg font-semibold text-primary mb-2">$95.00 / noche</p>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">La máxima expresión del lujo: cámara privada, cama ortopédica y servicio a la habitación.</p>
+              <button (click)="goToReservations()" class="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-amber-600 transition duration-300">Ver Detalles y Reservar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-16 md:py-24 bg-background-light dark:bg-background-dark">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-text-light dark:text-text-dark">Haga su Estancia Inolvidable con Servicios Extra</h2>
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md text-center flex flex-col items-center">
+            <span class="material-icons text-secondary text-5xl mb-4">directions_walk</span>
+            <h4 class="text-xl font-bold mb-2 text-text-light dark:text-text-dark">Paseo VIP</h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-2">Una caminata extendida por el parque con seguimiento GPS.</p>
+            <p class="text-lg font-semibold text-secondary">$15.00</p>
+          </div>
+          <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md text-center flex flex-col items-center">
+            <span class="material-icons text-secondary text-5xl mb-4">spa</span>
+            <h4 class="text-xl font-bold mb-2 text-text-light dark:text-text-dark">Sesión de Peluquería</h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-2">Baño, corte de pelo y uñas para que luzca impecable.</p>
+            <p class="text-lg font-semibold text-secondary">$45.00</p>
+          </div>
+          <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md text-center flex flex-col items-center">
+            <span class="material-icons text-secondary text-5xl mb-4">medical_services</span>
+            <h4 class="text-xl font-bold mb-2 text-text-light dark:text-text-dark">Cuidado Veterinario</h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-2">Revisión general y administración de medicamentos.</p>
+            <p class="text-lg font-semibold text-secondary">$30.00</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 md:py-24 bg-card-light dark:bg-card-dark">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-text-light dark:text-text-dark">Lo que dicen nuestros clientes</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="bg-background-light dark:bg-background-dark p-8 rounded-lg shadow-md">
+            <p class="text-gray-600 dark:text-gray-300 italic mb-4">"¡Increíble! Mi perro, Rocky, nunca había estado tan feliz lejos de casa. Las instalaciones son impecables y el personal es súper atento. ¡Volveremos seguro!"</p>
+            <div class="flex items-center">
+              <img alt="Foto de cliente satisfecho" class="w-12 h-12 rounded-full mr-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB06oLY8jMt2XMzWzuMSMBBu0flQ1nYlcRcGTkIUred7aim_36Wx8hudSX3ptvOLgjlyfN02KBOGGzFlJ0Kv_lKLA6jP-nuiupX7xkJSqxQyGLwTRXT7CYk5jJZas8WWe1XxlpYuvw0D8F0Ixbs2mIg539ejHzOzKFWKs0QW80n2PMQl_RhKHBetzyxS5imSZZeVx27JxPtugfxOSe8Lio5lSx0W_aaSdTtwxVTDBKLtNr2QEuEn_lQ5ObqDhgO7lxYy91wYsxpXaxy"/>
+              <div>
+                <p class="font-bold text-text-light dark:text-text-dark">Ana López</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Dueña de Rocky</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-8 rounded-lg shadow-md">
+            <p class="text-gray-600 dark:text-gray-300 italic mb-4">"Dejé a mi gata, Luna, por una semana y estaba preocupado. Pero las actualizaciones con fotos diarias y las cámaras 24/7 me dieron una tranquilidad total. ¡Servicio de 10!"</p>
+            <div class="flex items-center">
+              <img alt="Foto de cliente satisfecho" class="w-12 h-12 rounded-full mr-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDsTLILwyOGMjEG4magzVsQTOzAI8pLv2Pz9XQyQpfXH4yvbGcquVQhivnQM_CX4aYKQ-874PYJ7UhVNfOmtu3dIyqDlIFatWj3AqZnQGWTID0UxkraSgaidu7aG1j-kShEE2PQd530C8z96COTFkceV3W3Qo4sHPSC5UQKoQVCnZjV8ZJQcNgIjqdRS8Atl-jmtVuGv8bwryf7Vltfm_Azm9NBM59QKqgccrkZYFMC2S8mU70vcIxDNxDdbz-gfjOh8zjyRhlYVPE"/>
+              <div>
+                <p class="font-bold text-text-light dark:text-text-dark">Carlos Pérez</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Dueño de Luna</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-background-light dark:bg-background-dark p-8 rounded-lg shadow-md">
+            <p class="text-gray-600 dark:text-gray-300 italic mb-4">"El servicio de peluquería es fantástico. Recogí a mi caniche, Tobi, y parecía una estrella de cine. El mejor hotel para mascotas que he probado, sin duda."</p>
+            <div class="flex items-center">
+              <img alt="Foto de cliente satisfecho" class="w-12 h-12 rounded-full mr-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXad51DNq_ivF1quq-yM72Rutp2uDrpeT14u2jauEG3H2iV-NETqL_fPW6lKBzcWZQiTGAkt7v9K4FD7txcInoPWqGowHJh4qhHKavpJh3dzDSGNeFdh3rbhh_JgWHngXGlQtU1bMxB_w6HvWkyJQKugCrDWFIROf7eNeUXgOMImuEEyvdiCpMDJ3bgMYGaTdOZiWe5SjNmAc_ahdS5iOqNfSeGd_I2tbom5AOi-hcKE0kKaE2MJ6v3cAVWQx43e5sDWgNW_k9QpFf"/>
+              <div>
+                <p class="font-bold text-text-light dark:text-text-dark">Sofía Martínez</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Dueña de Tobi</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 md:py-24 bg-secondary">
+      <div class="container mx-auto px-6 text-center text-white">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">¡Asegure el Lugar de su Mascota Hoy!</h2>
+        <p class="text-lg mb-8 max-w-2xl mx-auto">No espere a que se agoten las plazas. Dele a su compañero la experiencia de lujo que se merece.</p>
+        <a (click)="goToReservations()" class="bg-white text-secondary font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 text-lg cursor-pointer">Revisar Fechas y Reservar</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-background-dark text-text-dark">
+    <div class="container mx-auto px-6 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="font-bold text-lg mb-2">PetStay</h3>
+          <p class="text-gray-400">Cuidado 5 estrellas para sus mejores amigos.</p>
+          <p class="text-gray-400 mt-2">Calle Falsa 123, Ciudad Mascota</p>
+          <p class="text-gray-400">contacto&#64;petstay.com</p>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-2">Enlaces</h3>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a class="hover:text-primary cursor-pointer">Política de Privacidad</a></li>
+            <li class="mb-2"><a class="hover:text-primary cursor-pointer">Términos y Condiciones</a></li>
+            <li class="mb-2"><a class="hover:text-primary cursor-pointer">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-2">Síguenos</h3>
+          <div class="flex space-x-4">
+            <a class="text-gray-400 hover:text-primary cursor-pointer">
+              <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a class="text-gray-400 hover:text-primary cursor-pointer">
+              <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+              </svg>
+            </a>
+            <a class="text-gray-400 hover:text-primary cursor-pointer">
+              <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.793 2.013 10.147 2 12.315 2zm0 1.623c-2.392 0-2.71.01-3.66.058a3.27 3.27 0 00-1.812.643 3.27 3.27 0 00-.644 1.812c-.048.95-.058 1.268-.058 3.66s.01 2.71.058 3.66a3.27 3.27 0 00.643 1.812 3.27 3.27 0 001.812.643c.95.048 1.268.058 3.66.058s2.71-.01 3.66-.058a3.27 3.27 0 001.812-.643 3.27 3.27 0 00.644-1.812c.048-.95.058-1.268.058-3.66s-.01-2.71-.058-3.66a3.27 3.27 0 00-.643-1.812 3.27 3.27 0 00-1.812-.643c-.95-.048-1.268-.058-3.66-.058zM12 8.118a3.882 3.882 0 100 7.764 3.882 3.882 0 000-7.764zm0 6.138a2.256 2.256 0 110-4.512 2.256 2.256 0 010 4.512zm4.965-7.753a.923.923 0 100-1.846.923.923 0 000 1.846z" fill-rule="evenodd"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 border-t border-gray-700 pt-4 text-center text-gray-500">
+        <p>© 2024 PetStay. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</div>

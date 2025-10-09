@@ -1,16 +1,16 @@
-<div class="app-container">
+<div class="app-container" *ngIf="!isLandingPage">
   <header class="app-header">
     <nav class="navbar">
       <div class="navbar-brand">
         <h1>{{ title }}</h1>
       </div>
       <div class="navbar-nav">
-        <a routerLink="/dashboard" class="nav-link">Dashboard</a>
-        <a routerLink="/customers" class="nav-link">Clientes</a>
-        <a routerLink="/employees" class="nav-link">Empleados</a>
-        <a routerLink="/rooms" class="nav-link">Habitaciones</a>
-        <a routerLink="/services" class="nav-link">Servicios</a>
-        <a routerLink="/reservations" class="nav-link">Reservas</a>
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+        <a routerLink="/customers" routerLinkActive="active" class="nav-link">Clientes</a>
+        <a routerLink="/employees" routerLinkActive="active" class="nav-link">Empleados</a>
+        <a routerLink="/rooms" routerLinkActive="active" class="nav-link">Habitaciones</a>
+        <a routerLink="/services" routerLinkActive="active" class="nav-link">Servicios</a>
+        <a routerLink="/reservations" routerLinkActive="active" class="nav-link">Reservas</a>
       </div>
     </nav>
   </header>
@@ -23,3 +23,6 @@
     <p>&copy; 2025 Pet Hotel Management. Todos los derechos reservados.</p>
   </footer>
 </div>
+
+<!-- Landing page content (without app wrapper) -->
+<router-outlet *ngIf="isLandingPage"></router-outlet>
