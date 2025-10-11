@@ -1,0 +1,59 @@
+<section class="relative h-[calc(100vh-68px)] min-h-[600px] flex items-center justify-center">
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClMrLMKZXRqVmjqpcGt_H5V8ofv2Ex2OzZkG05WosEZm34sip4Ou_wyL_6VwXFzonOpD59ze1i8VafYfwCY1M8Q7-rS2s4RFe8_UJXb03PkZ_d_uTLdu8bxFNsEllxlKDZ8jRd4TO-BwGTAh0ZdAK9V6kIMuBqEYBNUEoDjV3kpYcYn5-LsGQV1YnkhIHsG00c-1ig4fdHwO87nPbfYT6lAQfbyNE-k6Zg_xewLjL_6G0yB4a5Wl6Qf9YfMMCibFAnriNjOSJgD3CS');">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+    </div>
+    <div class="relative z-10 text-center text-white px-6">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">El Mejor Lugar para sus Mejores Amigos.</h1>
+      <p class="text-xl md:text-2xl font-semibold mb-6 drop-shadow-md">Cuidado 5 Estrellas para tu Mascota.</p>
+      <p class="text-lg md:text-xl mb-8 drop-shadow-md">Explora nuestras cómodas habitaciones y reserva la estancia perfecta en segundos.</p>
+      
+      <!-- Booking Form -->
+      <div class="bg-card-light dark:bg-card-dark p-6 md:p-8 rounded-xl shadow-2xl max-w-4xl mx-auto" id="booking-form">
+        <form (ngSubmit)="goToSearchRoom()" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <div class="text-left">
+            <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1" for="start-date">Fecha de Inicio</label>
+            <input 
+              class="w-full p-3 border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark" 
+              id="start-date" 
+              type="date"
+              [(ngModel)]="bookingForm.startDate"
+              name="startDate"
+              required
+            />
+          </div>
+          <div class="text-left">
+            <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1" for="end-date">Fecha de Fin</label>
+            <input 
+              class="w-full p-3 border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark" 
+              id="end-date" 
+              type="date"
+              [(ngModel)]="bookingForm.endDate"
+              name="endDate"
+              required
+            />
+          </div>
+          <!--
+          <div class="text-left">
+            <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1" for="pet-type">Tipo de Mascota</label>
+            <select 
+              class="w-full p-3 border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark" 
+              id="pet-type"
+              [(ngModel)]="bookingForm.petType"
+              name="petType"
+            >
+              <option value="Perro">Perro</option>
+              <option value="Gato">Gato</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          -->
+          <button 
+            class="w-full bg-secondary text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-emerald-600 transition duration-300 col-span-1" 
+            type="submit"
+          >
+            Ver Disponibilidad y Precios
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
