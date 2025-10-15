@@ -47,15 +47,25 @@ export class ReservationsComponent implements OnInit {
     this.loadCustomers();
     this.loadRooms();
     
-    // Check for query parameters from landing page
+    // Check for query parameters from landing page or room selection
     this.route.queryParams.subscribe(params => {
-      if (params['startDate'] || params['endDate'] || params['petType']) {
+      if (params['startDate'] || params['endDate'] || params['petType'] || params['roomId']) {
         this.showAddForm = true;
         if (params['startDate']) {
           this.newReservation.checkIn = new Date(params['startDate']);
         }
         if (params['endDate']) {
           this.newReservation.checkOut = new Date(params['endDate']);
+        }
+        if (params['roomId']) {
+          this.newReservation.roomId = parseInt(params['roomId']);
+        }
+        if (params['roomPrice']) {
+          // Calcular precio total basado en las noches
+          const startDate = new Date(params['startDate']);
+          const endDate = new Date(params['endDate']);
+          const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+          this.newReservation.totalPrice = nights * parseFloat(params['roomPrice']);
         }
         if (params['petType']) {
           this.newReservation.notes = `Tipo de mascota: ${params['petType']}`;
@@ -86,13 +96,33 @@ export class ReservationsComponent implements OnInit {
   }
 
   addReservation(): void {
+    // Validaciones
+    if (!this.newReservation.customerId || !this.newReservation.roomId) {
+      alert('Por favor, selecciona un cliente y una habitación.');
+      return;
+    }
+
+    if (this.newReservation.checkIn >= this.newReservation.checkOut) {
+      alert('La fecha de check-in debe ser anterior a la fecha de check-out.');
+      return;
+    }
+
+    if (this.newReservation.totalPrice <= 0) {
+      alert('El precio total debe ser mayor a 0.');
+      return;
+    }
+
     this.reservationService.createReservation(this.newReservation).subscribe({
       next: () => {
+        alert('Reserva creada exitosamente!');
         this.loadReservations();
         this.resetForm();
         this.showAddForm = false;
       },
-      error: (error) => console.error('Error creating reservation:', error)
+      error: (error) => {
+        console.error('Error creating reservation:', error);
+        alert('Error al crear la reserva. Por favor, intenta de nuevo.');
+      }
     });
   }
 
@@ -126,6 +156,39 @@ export class ReservationsComponent implements OnInit {
   cancelEdit(): void {
     this.resetForm();
     this.showAddForm = false;
+  }
+
+  calculateTotalPrice(): void {
+    if (this.newReservation.roomId && this.newReservation.checkIn && this.newReservation.checkOut) {
+      const room = this.rooms.find(r => r.id === this.newReservation.roomId);
+      if (room) {
+        const startDate = new Date(this.newReservation.checkIn);
+        const endDate = new Date(this.newReservation.checkOut);
+        const nights = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+        this.newReservation.totalPrice = nights * room.price;
+      }
+    }
+  }
+
+  onRoomChange(): void {
+    this.calculateTotalPrice();
+  }
+
+  onDateChange(): void {
+    this.calculateTotalPrice();
+  }
+
+  getSelectedRoom(): Room | undefined {
+    return this.rooms.find(room => room.id === this.newReservation.roomId);
+  }
+
+  getNights(): number {
+    if (this.newReservation.checkIn && this.newReservation.checkOut) {
+      const startDate = new Date(this.newReservation.checkIn);
+      const endDate = new Date(this.newReservation.checkOut);
+      return Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    }
+    return 0;
   }
 
   private resetForm(): void {
