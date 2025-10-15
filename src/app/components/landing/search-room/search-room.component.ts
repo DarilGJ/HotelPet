@@ -13,13 +13,24 @@ export class SearchRoomComponent {
 
   bookingForm = {
     startDate: '',
-    endDate: ''
+    endDate: '',
   };
 
-    constructor(private router: Router) {}
+  constructor(private router: Router) {}
 
   goToSearchRoom() {
-    this.router.navigate(['/rooms']);
+    if (this.bookingForm.startDate && this.bookingForm.endDate) {
+      // Navegar al proceso de reserva con los parámetros de búsqueda
+      this.router.navigate(['/process'], {
+        queryParams: {
+          startDate: this.bookingForm.startDate,
+          endDate: this.bookingForm.endDate,
+          
+        }
+      });
+    } else {
+      alert('Por favor, selecciona las fechas de inicio y fin de la estancia.');
+    }
   }
 
 }

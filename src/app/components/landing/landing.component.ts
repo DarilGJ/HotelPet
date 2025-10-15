@@ -20,7 +20,7 @@ export class LandingComponent {
 
 
   goToReservations() {
-    this.router.navigate(['/reservations']);
+    this.router.navigate(['/process']);
   }
 
 }
