@@ -14,7 +14,7 @@ export class NavbarComponent {
 
   goToReservation() {
     // Navegar a la página de reservas con los datos del formulario
-    this.router.navigate(['/reservations']);
+    this.router.navigate(['/process']);
   }
 
   goToLogin() {

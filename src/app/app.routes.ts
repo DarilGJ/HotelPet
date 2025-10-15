@@ -7,6 +7,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/landing/landing.component').then(m => m.LandingComponent)
   },
   {
+    path: 'process',
+    loadComponent: () => import('./components/landing/service-process/service-process.component').then(m => m.ServiceProcessComponent)
+  },
+  {
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },

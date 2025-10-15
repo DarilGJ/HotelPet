@@ -15,10 +15,8 @@ import { FooterComponent } from './footer/footer.component';
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent {
-  
 
   constructor(private router: Router) {}
-
 
 
   goToReservations() {
