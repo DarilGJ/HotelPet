@@ -8,7 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'process',
-    loadComponent: () => import('./components/landing/service-process/service-process.component').then(m => m.ServiceProcessComponent)
+    loadComponent: () => import('./components/service-process/service-process.component').then(m => m.ServiceProcessComponent)
   },
   {
     path: 'dashboard',
