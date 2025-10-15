@@ -1,4 +1,4 @@
-# Pet Hotel Management - Frontend
+# PetHotel Management - Frontend 
 
 Este es el frontend de la aplicación de gestión de hotel para mascotas, desarrollado con Angular 17.
 
