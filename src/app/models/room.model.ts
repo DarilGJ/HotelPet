@@ -6,6 +6,7 @@ export interface Room {
   price: number;
   isAvailable: boolean;
   description?: string;
+  imageUrl?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -17,6 +18,7 @@ export interface RoomCreateRequest {
   price: number;
   isAvailable: boolean;
   description?: string;
+  imageUrl?: string;
 }
 
 export interface RoomUpdateRequest {
@@ -26,10 +28,12 @@ export interface RoomUpdateRequest {
   price?: number;
   isAvailable?: boolean;
   description?: string;
+  imageUrl?: string;
 }
 
 export enum RoomType {
-  SINGLE = 'single',
-  DOUBLE = 'double',
-  SUITE = 'suite',
+  SINGLE = 'Habitación Individual',
+  DOUBLE = 'Habitación Doble',
+  SUITE = 'Suite de Lujo',
+  // End of Selection
 }
