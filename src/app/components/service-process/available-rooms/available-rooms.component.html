@@ -1,0 +1,80 @@
+<div class="px-40 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <div class="flex min-w-72 flex-col gap-3">
+          <p class="text-[#0d171b] tracking-light text-[32px] font-bold leading-tight">Reservar Estancia</p>
+          <p class="text-[#4c809a] text-sm font-normal leading-normal">Selecciona las fechas para ver las opciones de alojamiento disponibles.</p>
+        </div>
+      </div>
+      
+      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+        <label class="flex flex-col min-w-40 flex-1">
+            <p class="text-[#0d171b] text-base font-medium leading-normal pb-2">Fecha de entrada</p>
+            <input
+                type="date"
+                id="fechaEntrada"
+                [(ngModel)]="searchForm.startDate"
+                name="startDate"
+                min=""
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d171b] focus:outline-0 focus:ring-0 border-none bg-[#e7eff3] focus:border-none h-14 placeholder:text-[#4c809a] p-4 text-base font-normal leading-normal"
+            />
+        </label>
+    
+        <label class="flex flex-col min-w-40 flex-1">
+            <p class="text-[#0d171b] text-base font-medium leading-normal pb-2">Fecha de salida</p>
+            <input
+                type="date"
+                id="fechaSalida"
+                [(ngModel)]="searchForm.endDate"
+                name="endDate"
+                min=""
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d171b] focus:outline-0 focus:ring-0 border-none bg-[#e7eff3] focus:border-none h-14 placeholder:text-[#4c809a] p-4 text-base font-normal leading-normal"
+            />
+        </label>
+    </div>
+
+      <div class="flex px-4 py-3 justify-end">
+        <button
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#13a4ec] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]"
+          (click)="searchAvailableRooms()"
+          [disabled]="loading"
+        >
+          <span class="truncate">{{ loading ? 'Buscando...' : 'Buscar disponibilidad' }}</span>
+        </button>
+      </div>
+      <h2 class="text-[#0d171b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Habitaciones disponibles</h2>
+      
+      <!-- Loading state -->
+      <div *ngIf="loading" class="p-4 text-center">
+        <p class="text-[#4c809a]">Buscando habitaciones disponibles...</p>
+      </div>
+      
+      <!-- No rooms found -->
+      <div *ngIf="!loading && availableRooms.length === 0" class="p-4 text-center">
+        <p class="text-[#4c809a]">No se encontraron habitaciones disponibles para las fechas seleccionadas.</p>
+      </div>
+      
+      <!-- Available rooms -->
+      <div *ngFor="let room of availableRooms" class="p-4">
+        <div class="flex items-stretch justify-between gap-4 rounded-lg bg-slate-50 p-4 shadow-[0_0_4px_rgba(0,0,0,0.1)]">
+          <div class="flex flex-[2_2_0px] flex-col gap-4">
+            <div class="flex flex-col gap-1">
+              <p class="text-[#0d171b] text-base font-bold leading-tight">{{ room.type }} - Habitación {{ room.number }}</p>
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">{{ room.description || 'Habitación cómoda y acogedora para tu mascota.' }}</p>
+              <p class="text-[#0d171b] text-lg font-bold leading-tight">${{ room.price | number:'1.2-2' }} por noche</p>
+            </div>
+            <button
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 flex-row-reverse bg-[#e7eff3] text-[#0d171b] text-sm font-medium leading-normal w-fit hover:bg-[#d1e7f0] transition-colors"
+              (click)="selectRoom(room)"
+            >
+              <span class="truncate">Ver detalles y reservar</span>
+            </button>
+          </div>
+          <div
+            class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1"
+            [style.background-image]="'url(' + (room.imageUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuA31OFeIzJWudfJJ_o6CKCAURY8coUMMMZpy3yepvgwiKKNcy06M7kVpOKTVkysi9ErFueYPOPdvpk5TpJUx41XPaATBE9klcnb4Oi3wLXyFe4JBaxFR2aKNURR-K1PUQygBPonXn9F1G6zPp_j5khht2renxZ_0G6iqQ0iC-uKH1q4FAjQeZFmOp2TG1kqQ0w-Dmq_eiQTpgkdbkuWx1_0IWJbJMvd5i8bWIGsLfcScU50kpz0cZhA8W0El2B4ND96ke_KB4SiWO_E') + ')'"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
