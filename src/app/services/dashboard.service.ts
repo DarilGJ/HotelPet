@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Reservation } from '../models/reservation.model';
 
 export interface DashboardStats {
   totalCustomers: number;
@@ -9,15 +10,6 @@ export interface DashboardStats {
   totalReservations: number;
   activeReservations: number;
   availableRooms: number;
-}
-
-export interface RecentReservation {
-  id: number;
-  customerName: string;
-  roomNumber: string;
-  checkIn: Date;
-  checkOut: Date;
-  status: string;
 }
 
 @Injectable({
@@ -32,7 +24,7 @@ export class DashboardService {
     return this.http.get<DashboardStats>(`${this.apiUrl}/stats`);
   }
 
-  getRecentReservations(): Observable<RecentReservation[]> {
-    return this.http.get<RecentReservation[]>(`${this.apiUrl}/recent-reservations`);
+  getRecentReservations(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.apiUrl}/recent-reservations`);
   }
 }

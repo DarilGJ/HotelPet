@@ -8,12 +8,12 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ReservationService {
-  private apiUrl = `${environment.apiUrl}/reservations`;
+  private apiUrl = `${environment.apiUrl}/reserves`;
 
   constructor(private http: HttpClient) { }
 
   getAllReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(this.apiUrl);
+    return this.http.get<Reservation[]>(`${this.apiUrl}?include=customer,room,employee`);
   }
 
   getReservationById(id: number): Observable<Reservation> {
@@ -41,6 +41,10 @@ export class ReservationService {
   }
 
   getActiveReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.apiUrl}/active`);
+    return this.http.get<Reservation[]>(`${this.apiUrl}/active?include=customer,room,employee`);
+  }
+
+  getReservationsWithRelations(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.apiUrl}/with-relations`);
   }
 }

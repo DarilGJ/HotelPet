@@ -54,13 +54,15 @@
 
   <div class="recent-section">
     <h2>Reservas Recientes</h2>
-    <div class="reservations-list">
+    <div class="reservations-list" *ngIf="recentReservations.length > 0; else noReservations">
       <div *ngFor="let reservation of recentReservations" class="reservation-item">
         <div class="reservation-info">
-          <h4>{{ reservation.customer?.name || 'Cliente' }}</h4>
-          <p>Habitación: {{ reservation.room?.number || 'N/A' }}</p>
-          <p>Check-in: {{ reservation.checkIn | date:'short' }}</p>
-          <p>Check-out: {{ reservation.checkOut | date:'short' }}</p>
+          <h4>{{ reservation.customer?.name || 'Cliente no disponible' }}</h4>
+          <p><strong>Habitación:</strong> {{ reservation.room?.number || 'N/A' }} - {{ reservation.room?.type || '' }}</p>
+          <p><strong>Fecha de entrada:</strong> {{ reservation.startDate | date:'short' }}</p>
+          <p><strong>Fecha de salida:</strong> {{ reservation.endDate | date:'short' }}</p>
+          <p><strong>Empleado:</strong> {{ reservation.employee?.name || 'N/A' }}</p>
+          <p><strong>Total:</strong> ${{ reservation.total | number:'1.2-2' }}</p>
         </div>
         <div class="reservation-status">
           <span class="status-badge" [ngClass]="'status-' + reservation.status">
@@ -69,5 +71,10 @@
         </div>
       </div>
     </div>
+    <ng-template #noReservations>
+      <div class="no-data">
+        <p>No hay reservas recientes disponibles.</p>
+      </div>
+    </ng-template>
   </div>
 </div>

@@ -1,42 +1,56 @@
 export interface Reservation {
   id?: number;
+  startDate: Date;
+  endDate: Date;
+  checkInDate?: Date;
+  checkOutDate?: Date;
+  status: ReservationStatus;
+  observation?: string;
+  subTotal: number;
+  iva: number; // IVA fijo al 12%
+  total: number;
   customerId: number;
   roomId: number;
-  checkIn: Date;
-  checkOut: Date;
-  totalPrice: number;
-  status: ReservationStatus;
-  notes?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  employeeId: number;
   customer?: any; // Customer object
   room?: any; // Room object
+  employee?: any; // Employee object
 }
 
 export enum ReservationStatus {
   PENDING = 'pending',
   CONFIRMED = 'confirmed',
-  CHECKED_IN = 'checked_in',
-  CHECKED_OUT = 'checked_out',
-  CANCELLED = 'cancelled'
+  IN_PROGRESS = 'inProgress',
+  COMPLETED = 'completed',
+  CANCELED = 'canceled'
 }
 
 export interface ReservationCreateRequest {
+  startDate: Date;
+  endDate: Date;
+  checkInDate?: Date;
+  checkOutDate?: Date;
+  status: ReservationStatus;
+  observation?: string;
+  subTotal: number;
+  iva: number; // IVA fijo al 12%
+  total: number;
   customerId: number;
   roomId: number;
-  checkIn: Date;
-  checkOut: Date;
-  totalPrice: number;
-  status: ReservationStatus;
-  notes?: string;
+  employeeId: number;
 }
 
 export interface ReservationUpdateRequest {
+  startDate?: Date;
+  endDate?: Date;
+  checkInDate?: Date;
+  checkOutDate?: Date;
+  status?: ReservationStatus;
+  observation?: string;
+  subTotal?: number;
+  iva?: number; // IVA fijo al 12%
+  total?: number;
   customerId?: number;
   roomId?: number;
-  checkIn?: Date;
-  checkOut?: Date;
-  totalPrice?: number;
-  status?: ReservationStatus;
-  notes?: string;
+  employeeId?: number;
 }

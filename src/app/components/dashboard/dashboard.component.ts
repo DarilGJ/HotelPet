@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import { Reservation } from 'src/app/models/reservation.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,17 +22,7 @@ export class DashboardComponent implements OnInit {
     availableRooms: 0
   };
 
-  recentReservations: any[] = [{
-    customer: {
-      name: 'Juan Perez'
-    },
-    room: {
-      number: '101'
-    },
-    checkIn: new Date(),
-    checkOut: new Date(),
-    status: 'confirmed'
-  }];
+  recentReservations: Reservation[] = [];
 
   constructor(
     private dashboardService: DashboardService
@@ -42,15 +33,28 @@ export class DashboardComponent implements OnInit {
   }
 
   private loadDashboardData(): void {
-    // TODO: Implementar carga de datos del dashboard
-    // Aquí se cargarán las estadísticas y reservas recientes
     console.log('Cargando datos del dashboard');
-    this.dashboardService.getDashboardStats().subscribe((stats) => {
-      console.log('Estadísticas del dashboard cargadas', stats);
-      this.stats = stats;
+    
+    // Cargar estadísticas del dashboard
+    this.dashboardService.getDashboardStats().subscribe({
+      next: (stats) => {
+        console.log('Estadísticas del dashboard cargadas', stats);
+        this.stats = stats;
+      },
+      error: (error) => {
+        console.error('Error cargando estadísticas del dashboard:', error);
+      }
     });
-    this.dashboardService.getRecentReservations().subscribe((reservations) => {
-      this.recentReservations = reservations;
+    
+    // Cargar reservas recientes
+    this.dashboardService.getRecentReservations().subscribe({
+      next: (reservations) => {
+        console.log('Reservas recientes cargadas', reservations);
+        this.recentReservations = reservations;
+      },
+      error: (error) => {
+        console.error('Error cargando reservas recientes:', error);
+      }
     });
   }
 }
