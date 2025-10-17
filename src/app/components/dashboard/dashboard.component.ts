@@ -46,14 +46,30 @@ export class DashboardComponent implements OnInit {
       }
     });
     
-    // Cargar reservas recientes
-    this.dashboardService.getRecentReservations().subscribe({
+    // Cargar reservas recientes con detalles completos
+    this.dashboardService.getRecentReservationsWithDetails().subscribe({
       next: (reservations) => {
-        console.log('Reservas recientes cargadas', reservations);
+        console.log('Reservas recientes cargadas con detalles', reservations);
+        console.log('Primera reserva (si existe):', reservations[0]);
+        if (reservations[0]) {
+          console.log('Customer de la primera reserva:', reservations[0].customer);
+          console.log('Room de la primera reserva:', reservations[0].room);
+          console.log('Employee de la primera reserva:', reservations[0].employee);
+        }
         this.recentReservations = reservations;
       },
       error: (error) => {
         console.error('Error cargando reservas recientes:', error);
+        // Fallback al método original si el nuevo falla
+        this.dashboardService.getRecentReservations().subscribe({
+          next: (reservations) => {
+            console.log('Fallback: Reservas recientes cargadas sin detalles', reservations);
+            this.recentReservations = reservations;
+          },
+          error: (fallbackError) => {
+            console.error('Error en fallback cargando reservas recientes:', fallbackError);
+          }
+        });
       }
     });
   }

@@ -6,17 +6,17 @@
     </button>
   </div>
 
-  <!-- Formulario de agregar/editar -->
-  <div class="form-container" *ngIf="showAddForm">
-    <h2>{{ editingEmployee ? 'Editar Empleado' : 'Agregar Nuevo Empleado' }}</h2>
-    <form (ngSubmit)="editingEmployee ? updateEmployee() : addEmployee()">
+  <!-- Formulario de agregar empleado -->
+  <div class="form-container" *ngIf="showAddForm && !editingEmployee">
+    <h2>Agregar Nuevo Empleado</h2>
+    <form (ngSubmit)="addEmployee()">
       <div class="form-row">
         <div class="form-group">
           <label for="name">Nombre:</label>
           <input 
             type="text" 
             id="name" 
-            [(ngModel)]="editingEmployee ? editingEmployee.name : newEmployee.name" 
+            [(ngModel)]="newEmployee.name" 
             name="name" 
             required>
         </div>
@@ -26,7 +26,7 @@
           <input 
             type="email" 
             id="email" 
-            [(ngModel)]="editingEmployee ? editingEmployee.email : newEmployee.email" 
+            [(ngModel)]="newEmployee.email" 
             name="email" 
             required>
         </div>
@@ -38,7 +38,7 @@
           <input 
             type="tel" 
             id="phone" 
-            [(ngModel)]="editingEmployee ? editingEmployee.phone : newEmployee.phone" 
+            [(ngModel)]="newEmployee.phone" 
             name="phone" 
             required>
         </div>
@@ -48,7 +48,7 @@
           <input 
             type="text" 
             id="position" 
-            [(ngModel)]="editingEmployee ? editingEmployee.position : newEmployee.position" 
+            [(ngModel)]="newEmployee.position" 
             name="position" 
             required>
         </div>
@@ -60,7 +60,7 @@
           <input 
             type="number" 
             id="salary" 
-            [(ngModel)]="editingEmployee ? editingEmployee.salary : newEmployee.salary" 
+            [(ngModel)]="newEmployee.salary" 
             name="salary" 
             required>
         </div>
@@ -70,7 +70,7 @@
           <input 
             type="date" 
             id="hireDate" 
-            [(ngModel)]="editingEmployee ? editingEmployee.hireDate : newEmployee.hireDate" 
+            [(ngModel)]="newEmployee.hiringDate" 
             name="hireDate" 
             required>
         </div>
@@ -80,7 +80,7 @@
         <label class="checkbox-label">
           <input 
             type="checkbox" 
-            [(ngModel)]="editingEmployee ? editingEmployee.isActive : newEmployee.isActive" 
+            [(ngModel)]="newEmployee.isActive" 
             name="isActive">
           Empleado Activo
         </label>
@@ -88,7 +88,98 @@
       
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">
-          {{ editingEmployee ? 'Actualizar' : 'Agregar' }}
+          Agregar
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Formulario de editar empleado -->
+  <div class="form-container" *ngIf="showAddForm && editingEmployee">
+    <h2>Editar Empleado</h2>
+    <form (ngSubmit)="updateEmployee()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-name">Nombre:</label>
+          <input 
+            type="text" 
+            id="edit-name" 
+            [(ngModel)]="editingEmployee.name" 
+            name="edit-name" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-email">Email:</label>
+          <input 
+            type="email" 
+            id="edit-email" 
+            [(ngModel)]="editingEmployee.email" 
+            name="edit-email" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-phone">Teléfono:</label>
+          <input 
+            type="tel" 
+            id="edit-phone" 
+            [(ngModel)]="editingEmployee.phone" 
+            name="edit-phone" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-position">Posición:</label>
+          <input 
+            type="text" 
+            id="edit-position" 
+            [(ngModel)]="editingEmployee.position" 
+            name="edit-position" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-salary">Salario:</label>
+          <input 
+            type="number" 
+            id="edit-salary" 
+            [(ngModel)]="editingEmployee.salary" 
+            name="edit-salary" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-hireDate">Fecha de Contratación:</label>
+          <input 
+            type="date" 
+            id="edit-hireDate" 
+            [(ngModel)]="editingEmployee.hiringDate" 
+            name="edit-hireDate" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="editingEmployee.isActive" 
+            name="edit-isActive">
+          Empleado Activo
+        </label>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          Actualizar
         </button>
         <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
           Cancelar
@@ -122,7 +213,7 @@
             <td>{{ employee.phone }}</td>
             <td>{{ employee.position }}</td>
             <td>${{ employee.salary | number:'1.2-2' }}</td>
-            <td>{{ employee.hireDate | date:'short' }}</td>
+            <td>{{ employee.hiringDate | date:'short' }}</td>
             <td>
               <span class="status-badge" [ngClass]="employee.isActive ? 'active' : 'inactive'">
                 {{ employee.isActive ? 'Activo' : 'Inactivo' }}

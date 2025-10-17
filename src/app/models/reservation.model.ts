@@ -1,3 +1,7 @@
+import { Customer } from './customer.model';
+import { Room } from './room.model';
+import { Employee } from './employee.model';
+
 export interface Reservation {
   id?: number;
   startDate: Date;
@@ -12,9 +16,9 @@ export interface Reservation {
   customerId: number;
   roomId: number;
   employeeId: number;
-  customer?: any; // Customer object
-  room?: any; // Room object
-  employee?: any; // Employee object
+  customer?: Customer; // Customer object
+  room?: Room; // Room object
+  employee?: Employee; // Employee object
 }
 
 export enum ReservationStatus {

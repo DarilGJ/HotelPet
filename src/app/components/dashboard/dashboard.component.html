@@ -58,11 +58,12 @@
       <div *ngFor="let reservation of recentReservations" class="reservation-item">
         <div class="reservation-info">
           <h4>{{ reservation.customer?.name || 'Cliente no disponible' }}</h4>
-          <p><strong>Habitación:</strong> {{ reservation.room?.number || 'N/A' }} - {{ reservation.room?.type || '' }}</p>
+          <p><strong>Habitación:</strong> {{ reservation.room?.number || 'N/A' }} - {{ reservation.room?.type || 'Tipo no disponible' }}</p>
           <p><strong>Fecha de entrada:</strong> {{ reservation.startDate | date:'short' }}</p>
           <p><strong>Fecha de salida:</strong> {{ reservation.endDate | date:'short' }}</p>
           <p><strong>Empleado:</strong> {{ reservation.employee?.name || 'N/A' }}</p>
           <p><strong>Total:</strong> ${{ reservation.total | number:'1.2-2' }}</p>
+          <p><strong>Estado:</strong> {{ reservation.status }}</p>
         </div>
         <div class="reservation-status">
           <span class="status-badge" [ngClass]="'status-' + reservation.status">

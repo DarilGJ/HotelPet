@@ -6,16 +6,16 @@
     </button>
   </div>
 
-  <!-- Formulario de agregar/editar -->
-  <div class="form-container" *ngIf="showAddForm">
-    <h2>{{ editingReservation ? 'Editar Reserva' : 'Nueva Reserva' }}</h2>
-    <form (ngSubmit)="editingReservation ? updateReservation() : addReservation()">
+  <!-- Formulario de nueva reserva -->
+  <div class="form-container" *ngIf="showAddForm && !editingReservation">
+    <h2>Nueva Reserva</h2>
+    <form (ngSubmit)="addReservation()">
       <div class="form-row">
         <div class="form-group">
           <label for="customerId">Cliente:</label>
           <select 
             id="customerId" 
-            [(ngModel)]="editingReservation ? editingReservation.customerId : newReservation.customerId" 
+            [(ngModel)]="newReservation.customerId" 
             name="customerId" 
             required>
             <option value="">Seleccionar cliente</option>
@@ -29,7 +29,7 @@
           <label for="roomId">Habitación:</label>
           <select 
             id="roomId" 
-            [(ngModel)]="editingReservation ? editingReservation.roomId : newReservation.roomId" 
+            [(ngModel)]="newReservation.roomId" 
             name="roomId" 
             (change)="onRoomChange()"
             required>
@@ -38,7 +38,7 @@
               {{ room.number }} - {{ room.type }} (${{ room.price | number:'1.2-2' }} por noche)
             </option>
           </select>
-          <div *ngIf="newReservation.roomId && !editingReservation" class="mt-2 p-2 bg-blue-50 rounded">
+          <div *ngIf="newReservation.roomId" class="mt-2 p-2 bg-blue-50 rounded">
             <small class="text-blue-700">
               <strong>Habitación seleccionada:</strong> 
               {{ getSelectedRoom()?.number }} - {{ getSelectedRoom()?.type }}
@@ -54,7 +54,7 @@
           <label for="employeeId">Empleado:</label>
           <select 
             id="employeeId" 
-            [(ngModel)]="editingReservation ? editingReservation.employeeId : newReservation.employeeId" 
+            [(ngModel)]="newReservation.employeeId" 
             name="employeeId" 
             required>
             <option value="">Seleccionar empleado</option>
@@ -71,7 +71,7 @@
           <input 
             type="datetime-local" 
             id="startDate" 
-            [(ngModel)]="editingReservation ? editingReservation.startDate : newReservation.startDate" 
+            [(ngModel)]="newReservation.startDate" 
             name="startDate" 
             (change)="onDateChange()"
             required>
@@ -82,7 +82,7 @@
           <input 
             type="datetime-local" 
             id="endDate" 
-            [(ngModel)]="editingReservation ? editingReservation.endDate : newReservation.endDate" 
+            [(ngModel)]="newReservation.endDate" 
             name="endDate" 
             (change)="onDateChange()"
             required>
@@ -95,7 +95,7 @@
           <input 
             type="datetime-local" 
             id="checkInDate" 
-            [(ngModel)]="editingReservation ? editingReservation.checkInDate : newReservation.checkInDate" 
+            [(ngModel)]="newReservation.checkInDate" 
             name="checkInDate">
         </div>
         
@@ -104,64 +104,12 @@
           <input 
             type="datetime-local" 
             id="checkOutDate" 
-            [(ngModel)]="editingReservation ? editingReservation.checkOutDate : newReservation.checkOutDate" 
+            [(ngModel)]="newReservation.checkOutDate" 
             name="checkOutDate">
         </div>
       </div>
-      
-      <div class="form-row" *ngIf="editingReservation">
-        <div class="form-group">
-          <label for="subTotal">Subtotal:</label>
-          <input 
-            type="number" 
-            id="subTotal" 
-            [(ngModel)]="editingReservation.subTotal" 
-            name="subTotal" 
-            min="0" 
-            step="0.01" 
-            required>
-        </div>
-        
-        <div class="form-group">
-          <label for="iva">IVA (12%):</label>
-          <input 
-            type="number" 
-            id="iva" 
-            [(ngModel)]="editingReservation.iva" 
-            name="iva" 
-            min="0" 
-            step="0.01">
-        </div>
-      </div>
-      
-      <div class="form-row" *ngIf="editingReservation">
-        <div class="form-group">
-          <label for="total">Total:</label>
-          <input 
-            type="number" 
-            id="total" 
-            [(ngModel)]="editingReservation.total" 
-            name="total" 
-            min="0" 
-            step="0.01" 
-            required>
-        </div>
-        
-        <div class="form-group">
-          <label for="status">Estado:</label>
-          <select 
-            id="status" 
-            [(ngModel)]="editingReservation.status" 
-            name="status" 
-            required>
-            <option *ngFor="let status of reservationStatuses" [value]="status">
-              {{ status }}
-            </option>
-          </select>
-        </div>
-      </div>
 
-      <div class="form-row" *ngIf="!editingReservation">
+      <div class="form-row">
         <div class="form-group">
           <label for="status">Estado:</label>
           <select 
@@ -180,14 +128,14 @@
         <label for="observation">Observaciones:</label>
         <textarea 
           id="observation" 
-          [(ngModel)]="editingReservation ? editingReservation.observation : newReservation.observation" 
+          [(ngModel)]="newReservation.observation" 
           name="observation" 
           rows="3"
           placeholder="Información adicional sobre la mascota, necesidades especiales, etc."></textarea>
       </div>
 
       <!-- Resumen de la reserva -->
-      <div *ngIf="!editingReservation && newReservation.roomId && newReservation.startDate && newReservation.endDate" 
+      <div *ngIf="newReservation.roomId && newReservation.startDate && newReservation.endDate" 
            class="form-group bg-green-50 p-4 rounded-lg border border-green-200">
         <h3 class="text-lg font-semibold text-green-800 mb-2">Resumen de la Reserva</h3>
         <div class="space-y-1 text-sm text-green-700">
@@ -204,7 +152,170 @@
       
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">
-          {{ editingReservation ? 'Actualizar' : 'Crear' }}
+          Crear
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Formulario de editar reserva -->
+  <div class="form-container" *ngIf="showAddForm && editingReservation">
+    <h2>Editar Reserva</h2>
+    <form (ngSubmit)="updateReservation()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-customerId">Cliente:</label>
+          <select 
+            id="edit-customerId" 
+            [(ngModel)]="editingReservation.customerId" 
+            name="edit-customerId" 
+            required>
+            <option value="">Seleccionar cliente</option>
+            <option *ngFor="let customer of customers" [value]="customer.id">
+              {{ customer.name }} - {{ customer.email }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-roomId">Habitación:</label>
+          <select 
+            id="edit-roomId" 
+            [(ngModel)]="editingReservation.roomId" 
+            name="edit-roomId" 
+            required>
+            <option value="">Seleccionar habitación</option>
+            <option *ngFor="let room of rooms" [value]="room.id">
+              {{ room.number }} - {{ room.type }} (${{ room.price | number:'1.2-2' }} por noche)
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-employeeId">Empleado:</label>
+          <select 
+            id="edit-employeeId" 
+            [(ngModel)]="editingReservation.employeeId" 
+            name="edit-employeeId" 
+            required>
+            <option value="">Seleccionar empleado</option>
+            <option *ngFor="let employee of employees" [value]="employee.id">
+              {{ employee.name }} - {{ employee.position }}
+            </option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-startDate">Fecha de Inicio:</label>
+          <input 
+            type="datetime-local" 
+            id="edit-startDate" 
+            [(ngModel)]="editingReservation.startDate" 
+            name="edit-startDate" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-endDate">Fecha de Fin:</label>
+          <input 
+            type="datetime-local" 
+            id="edit-endDate" 
+            [(ngModel)]="editingReservation.endDate" 
+            name="edit-endDate" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-checkInDate">Check-in Real:</label>
+          <input 
+            type="datetime-local" 
+            id="edit-checkInDate" 
+            [(ngModel)]="editingReservation.checkInDate" 
+            name="edit-checkInDate">
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-checkOutDate">Check-out Real:</label>
+          <input 
+            type="datetime-local" 
+            id="edit-checkOutDate" 
+            [(ngModel)]="editingReservation.checkOutDate" 
+            name="edit-checkOutDate">
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-subTotal">Subtotal:</label>
+          <input 
+            type="number" 
+            id="edit-subTotal" 
+            [(ngModel)]="editingReservation.subTotal" 
+            name="edit-subTotal" 
+            min="0" 
+            step="0.01" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-iva">IVA (12%):</label>
+          <input 
+            type="number" 
+            id="edit-iva" 
+            [(ngModel)]="editingReservation.iva" 
+            name="edit-iva" 
+            min="0" 
+            step="0.01">
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-total">Total:</label>
+          <input 
+            type="number" 
+            id="edit-total" 
+            [(ngModel)]="editingReservation.total" 
+            name="edit-total" 
+            min="0" 
+            step="0.01" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-status">Estado:</label>
+          <select 
+            id="edit-status" 
+            [(ngModel)]="editingReservation.status" 
+            name="edit-status" 
+            required>
+            <option *ngFor="let status of reservationStatuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="edit-observation">Observaciones:</label>
+        <textarea 
+          id="edit-observation" 
+          [(ngModel)]="editingReservation.observation" 
+          name="edit-observation" 
+          rows="3"
+          placeholder="Información adicional sobre la mascota, necesidades especiales, etc."></textarea>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          Actualizar
         </button>
         <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
           Cancelar

@@ -5,7 +5,7 @@ export interface Employee {
   phone: string;
   position: string;
   salary: number;
-  hireDate: Date;
+  hiringDate: Date;
   isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -17,7 +17,7 @@ export interface EmployeeCreateRequest {
   phone: string;
   position: string;
   salary: number;
-  hireDate: Date;
+  hiringDate: Date;
   isActive: boolean;
 }
 

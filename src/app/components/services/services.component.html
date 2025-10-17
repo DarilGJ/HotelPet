@@ -6,16 +6,16 @@
     </button>
   </div>
 
-  <!-- Formulario de agregar/editar -->
-  <div class="form-container" *ngIf="showAddForm">
-    <h2>{{ editingService ? 'Editar Servicio' : 'Agregar Nuevo Servicio' }}</h2>
-    <form (ngSubmit)="editingService ? updateService() : addService()">
+  <!-- Formulario de agregar servicio -->
+  <div class="form-container" *ngIf="showAddForm && !editingService">
+    <h2>Agregar Nuevo Servicio</h2>
+    <form (ngSubmit)="addService()">
       <div class="form-group">
         <label for="name">Nombre del Servicio:</label>
         <input 
           type="text" 
           id="name" 
-          [(ngModel)]="editingService ? editingService.name : newService.name" 
+          [(ngModel)]="newService.name" 
           name="name" 
           required>
       </div>
@@ -24,7 +24,7 @@
         <label for="description">Descripción:</label>
         <textarea 
           id="description" 
-          [(ngModel)]="editingService ? editingService.description : newService.description" 
+          [(ngModel)]="newService.description" 
           name="description" 
           rows="3" 
           required></textarea>
@@ -36,7 +36,7 @@
           <input 
             type="number" 
             id="price" 
-            [(ngModel)]="editingService ? editingService.price : newService.price" 
+            [(ngModel)]="newService.price" 
             name="price" 
             min="0" 
             step="0.01" 
@@ -48,7 +48,7 @@
           <input 
             type="number" 
             id="duration" 
-            [(ngModel)]="editingService ? editingService.duration : newService.duration" 
+            [(ngModel)]="newService.duration" 
             name="duration" 
             min="1" 
             required>
@@ -59,7 +59,7 @@
         <label class="checkbox-label">
           <input 
             type="checkbox" 
-            [(ngModel)]="editingService ? editingService.isActive : newService.isActive" 
+            [(ngModel)]="newService.isActive" 
             name="isActive">
           Servicio Activo
         </label>
@@ -67,7 +67,77 @@
       
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">
-          {{ editingService ? 'Actualizar' : 'Agregar' }}
+          Agregar
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Formulario de editar servicio -->
+  <div class="form-container" *ngIf="showAddForm && editingService">
+    <h2>Editar Servicio</h2>
+    <form (ngSubmit)="updateService()">
+      <div class="form-group">
+        <label for="edit-name">Nombre del Servicio:</label>
+        <input 
+          type="text" 
+          id="edit-name" 
+          [(ngModel)]="editingService.name" 
+          name="edit-name" 
+          required>
+      </div>
+      
+      <div class="form-group">
+        <label for="edit-description">Descripción:</label>
+        <textarea 
+          id="edit-description" 
+          [(ngModel)]="editingService.description" 
+          name="edit-description" 
+          rows="3" 
+          required></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-price">Precio:</label>
+          <input 
+            type="number" 
+            id="edit-price" 
+            [(ngModel)]="editingService.price" 
+            name="edit-price" 
+            min="0" 
+            step="0.01" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-duration">Duración (minutos):</label>
+          <input 
+            type="number" 
+            id="edit-duration" 
+            [(ngModel)]="editingService.duration" 
+            name="edit-duration" 
+            min="1" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="editingService.isActive" 
+            name="edit-isActive">
+          Servicio Activo
+        </label>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          Actualizar
         </button>
         <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
           Cancelar

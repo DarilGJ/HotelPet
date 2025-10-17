@@ -6,17 +6,17 @@
     </button>
   </div>
 
-  <!-- Formulario de agregar/editar -->
-  <div class="form-container" *ngIf="showAddForm">
-    <h2>{{ editingRoom ? 'Editar Habitación' : 'Agregar Nueva Habitación' }}</h2>
-    <form (ngSubmit)="editingRoom ? updateRoom() : addRoom()">
+  <!-- Formulario de agregar habitación -->
+  <div class="form-container" *ngIf="showAddForm && !editingRoom">
+    <h2>Agregar Nueva Habitación</h2>
+    <form (ngSubmit)="addRoom()">
       <div class="form-row">
         <div class="form-group">
           <label for="number">Número:</label>
           <input 
             type="text" 
             id="number" 
-            [(ngModel)]="editingRoom ? editingRoom.number : newRoom.number" 
+            [(ngModel)]="newRoom.number" 
             name="number" 
             required>
         </div>
@@ -25,7 +25,7 @@
           <label for="type">Tipo:</label>
           <select 
             id="type" 
-            [(ngModel)]="editingRoom ? editingRoom.type : newRoom.type" 
+            [(ngModel)]="newRoom.type" 
             name="type" 
             required>
             <option value="">Seleccionar tipo</option>
@@ -43,7 +43,7 @@
           <input 
             type="number" 
             id="capacity" 
-            [(ngModel)]="editingRoom ? editingRoom.capacity : newRoom.capacity" 
+            [(ngModel)]="newRoom.capacity" 
             name="capacity" 
             min="1" 
             required>
@@ -54,7 +54,7 @@
           <input 
             type="number" 
             id="price" 
-            [(ngModel)]="editingRoom ? editingRoom.price : newRoom.price" 
+            [(ngModel)]="newRoom.price" 
             name="price" 
             min="0" 
             step="0.01" 
@@ -66,7 +66,7 @@
         <label for="description">Descripción:</label>
         <textarea 
           id="description" 
-          [(ngModel)]="editingRoom ? editingRoom.description : newRoom.description" 
+          [(ngModel)]="newRoom.description" 
           name="description" 
           rows="3"></textarea>
       </div>
@@ -75,7 +75,7 @@
         <label class="checkbox-label">
           <input 
             type="checkbox" 
-            [(ngModel)]="editingRoom ? editingRoom.isAvailable : newRoom.isAvailable" 
+            [(ngModel)]="newRoom.isAvailable" 
             name="isAvailable">
           Habitación Disponible
         </label>
@@ -83,7 +83,93 @@
       
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">
-          {{ editingRoom ? 'Actualizar' : 'Agregar' }}
+          Agregar
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Formulario de editar habitación -->
+  <div class="form-container" *ngIf="showAddForm && editingRoom">
+    <h2>Editar Habitación</h2>
+    <form (ngSubmit)="updateRoom()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-number">Número:</label>
+          <input 
+            type="text" 
+            id="edit-number" 
+            [(ngModel)]="editingRoom.number" 
+            name="edit-number" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-type">Tipo:</label>
+          <select 
+            id="edit-type" 
+            [(ngModel)]="editingRoom.type" 
+            name="edit-type" 
+            required>
+            <option value="">Seleccionar tipo</option>
+            <option value="Individual">Individual</option>
+            <option value="Doble">Doble</option>
+            <option value="Suite">Suite</option>
+            <option value="Familiar">Familiar</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit-capacity">Capacidad:</label>
+          <input 
+            type="number" 
+            id="edit-capacity" 
+            [(ngModel)]="editingRoom.capacity" 
+            name="edit-capacity" 
+            min="1" 
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-price">Precio por noche:</label>
+          <input 
+            type="number" 
+            id="edit-price" 
+            [(ngModel)]="editingRoom.price" 
+            name="edit-price" 
+            min="0" 
+            step="0.01" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="edit-description">Descripción:</label>
+        <textarea 
+          id="edit-description" 
+          [(ngModel)]="editingRoom.description" 
+          name="edit-description" 
+          rows="3"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="editingRoom.isAvailable" 
+            name="edit-isAvailable">
+          Habitación Disponible
+        </label>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          Actualizar
         </button>
         <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
           Cancelar

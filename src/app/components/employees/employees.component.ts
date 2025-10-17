@@ -22,7 +22,7 @@ export class EmployeesComponent implements OnInit {
     phone: '',
     position: '',
     salary: 0,
-    hireDate: new Date(),
+    hiringDate: new Date(),
     isActive: true
   };
 
@@ -89,7 +89,7 @@ export class EmployeesComponent implements OnInit {
       phone: '',
       position: '',
       salary: 0,
-      hireDate: new Date(),
+      hiringDate: new Date(),
       isActive: true
     };
     this.editingEmployee = null;
