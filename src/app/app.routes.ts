@@ -35,6 +35,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/reservations/reservations.component').then(m => m.ReservationsComponent)
   },
   {
+    path: 'confirm-reservation',
+    loadComponent: () => import('./components/confirm-reservation/confirm-reservation.component').then(m => m.ConfirmReservationComponent)
+  },
+  {
     path: '**',
     redirectTo: '/dashboard'
   }

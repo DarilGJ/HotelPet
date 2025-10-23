@@ -1,0 +1,255 @@
+<div
+  class="relative flex h-auto min-h-screen w-full flex-col bg-slate-50 group/design-root overflow-x-hidden"
+  style='--checkbox-tick-svg: url(&apos;data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(248,250,252)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z%27/%3e%3c/svg%3e&apos;); font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'
+>
+  <div class="layout-container flex h-full grow flex-col">
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eff3] px-10 py-3">
+      <div class="flex items-center gap-4 text-[#0d171b]">
+        <div class="size-4">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z"
+              fill="currentColor"
+            ></path>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z"
+              fill="currentColor"
+            ></path>
+          </svg>
+        </div>
+        <h2 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em]">Pet Paradise</h2>
+      </div>
+      <div class="flex flex-1 justify-end gap-8">
+        <button
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e7eff3] text-[#0d171b] text-sm font-bold leading-normal tracking-[0.015em]"
+          (click)="goBack()"
+        >
+          <span class="truncate">Volver</span>
+        </button>
+      </div>
+    </header>
+    <div class="px-40 flex flex-1 justify-center py-5">
+      <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+        <h2 class="text-[#0d171b] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Confirmar tu Reserva</h2>
+        
+        <!-- Mensaje de error -->
+        <div *ngIf="errorMessage" class="px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded mb-4">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Información de debug -->
+        <div class="px-4 py-3 bg-blue-100 border border-blue-400 text-blue-700 rounded mb-4">
+          <h4 class="font-bold">Información de Debug:</h4>
+          <p><strong>Parámetros completos:</strong> {{ searchParams | json }}</p>
+          <p><strong>Fechas recibidas:</strong> {{ searchParams.startDate }} - {{ searchParams.endDate }}</p>
+          <p><strong>Fechas formateadas:</strong> {{ debugDates.startDateFormatted }} - {{ debugDates.endDateFormatted }}</p>
+          <p><strong>Noches calculadas:</strong> {{ getNightsCount() }}</p>
+          <p><strong>Habitación ID:</strong> {{ searchParams.roomId }}</p>
+          <p><strong>Subtotal:</strong> ${{ getSubtotal() }}</p>
+          <p><strong>IVA:</strong> ${{ getIva().toFixed(2) }}</p>
+          <p><strong>Total:</strong> ${{ getTotal().toFixed(2) }}</p>
+          <p><strong>Cliente seleccionado:</strong> {{ selectedCustomerId }}</p>
+          <p><strong>Stripe configurado:</strong> Integración con Stripe Elements activa</p>
+        </div>
+
+        <!-- Mensaje de éxito -->
+        <div *ngIf="reservationCreated" class="px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded">
+          ¡Reserva creada exitosamente! Redirigiendo al dashboard...
+        </div>
+
+        <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+          <h3 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Detalles de la Habitación</h3>
+          <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">Tipo de Habitación</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">{{ room?.type || 'Cargando...' }}</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">Check-in</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">{{ getCheckInDate() }}</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">Check-out</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">{{ getCheckOutDate() }}</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">Noches</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">{{ getNightsCount() }} noches</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">Precio por Noche</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ room?.price || 0 }}</p>
+            </div>
+          </div>
+          <h3 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Seleccionar Cliente</h3>
+          <div class="px-4 space-y-4">
+            <!-- Selector de Cliente -->
+            <div>
+              <label class="block text-[#0d171b] text-base font-medium leading-normal pb-2">Seleccionar Cliente *</label>
+              <select 
+                (change)="onCustomerSelect($event)"
+                class="form-input w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d171b] focus:outline-0 focus:ring-0 border border-[#cfdfe7] bg-slate-50 focus:border-[#13a4ec] h-12 p-3 text-base font-normal leading-normal"
+              >
+                <option value="">-- Selecciona un cliente --</option>
+                <option *ngFor="let customer of customers" [value]="customer.id">
+                  {{ customer.name }} {{ customer.lastName }} - {{ customer.email }}
+                </option>
+              </select>
+              <div *ngIf="!selectedCustomerId" class="text-red-500 text-sm mt-1">
+                Debes seleccionar un cliente
+              </div>
+            </div>
+
+            <!-- Información del Cliente Seleccionado -->
+            <div *ngIf="selectedCustomerId && customer" class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <h4 class="font-bold text-blue-800 mb-2">Cliente Seleccionado:</h4>
+              <p><strong>Nombre:</strong> {{ customer.name }} {{ customer.lastName }}</p>
+              <p><strong>Email:</strong> {{ customer.email }}</p>
+              <p><strong>Teléfono:</strong> {{ customer.phone }}</p>
+            </div>
+          </div>
+
+          <h3 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Información de la Mascota</h3>
+          <div class="px-4 space-y-4">
+            <!-- Información sobre la mascota -->
+            <div class="p-3 bg-green-50 border border-green-200 rounded-lg">
+              <p class="text-sm text-green-800">
+                <strong>Nota:</strong> Por favor, proporciona la información de la mascota que se hospedará en la habitación.
+              </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[#0d171b] text-base font-medium leading-normal pb-2">Nombre de la Mascota *</label>
+                <input
+                  formControlName="petName"
+                  placeholder="Ej: Max, Luna, Rocky..."
+                  class="form-input w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d171b] focus:outline-0 focus:ring-0 border border-[#cfdfe7] bg-slate-50 focus:border-[#13a4ec] h-12 placeholder:text-[#4c809a] p-3 text-base font-normal leading-normal"
+                />
+                <div *ngIf="reservationForm.get('petName')?.invalid && reservationForm.get('petName')?.touched" class="text-red-500 text-sm mt-1">
+                  Nombre de la mascota requerido
+                </div>
+              </div>
+              <div>
+                <label class="block text-[#0d171b] text-base font-medium leading-normal pb-2">Raza de la Mascota *</label>
+                <input
+                  formControlName="petBreed"
+                  placeholder="Ej: Golden Retriever, Persa, Pastor Alemán..."
+                  class="form-input w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d171b] focus:outline-0 focus:ring-0 border border-[#cfdfe7] bg-slate-50 focus:border-[#13a4ec] h-12 placeholder:text-[#4c809a] p-3 text-base font-normal leading-normal"
+                />
+                <div *ngIf="reservationForm.get('petBreed')?.invalid && reservationForm.get('petBreed')?.touched" class="text-red-500 text-sm mt-1">
+                  Raza de la mascota requerida
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Servicios Adicionales</h3>
+          <div class="px-4">
+            <div *ngFor="let service of additionalServices" class="flex gap-x-3 py-3 flex-row">
+              <input
+                type="checkbox"
+                [checked]="service.selected"
+                (change)="toggleService(service.id)"
+                class="h-5 w-5 rounded border-[#cfdfe7] border-2 bg-transparent text-[#13a4ec] checked:bg-[#13a4ec] checked:border-[#13a4ec] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#cfdfe7] focus:outline-none"
+              />
+              <p class="text-[#0d171b] text-base font-normal leading-normal">{{ service.name }} (+${{ service.price }})</p>
+            </div>
+          </div>
+          <h3 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Información de Pago</h3>
+          
+          <!-- Información de tarjetas de prueba -->
+          <div class="px-4 py-3 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded mb-4">
+            <h4 class="font-bold mb-2">Modo de Prueba - Validaciones Desactivadas:</h4>
+            <ul class="text-sm space-y-1">
+              <li><strong>Número de tarjeta:</strong> Cualquier número con al menos 4 dígitos (ej: 1234)</li>
+              <li><strong>Fecha de vencimiento:</strong> Cualquier texto que contenga números (ej: 12/25, 01/30, etc.)</li>
+              <li><strong>CVV:</strong> Cualquier número (ej: 123, 456, 789)</li>
+              <li><strong>Nombre del titular:</strong> Cualquier texto</li>
+            </ul>
+            <p class="text-xs mt-2 italic">Las validaciones estrictas están desactivadas para pruebas</p>
+          </div>
+          <div class="px-4 space-y-4">
+            <!-- Información de Pago con Stripe Elements -->
+            <div>
+              <label class="block text-[#0d171b] text-base font-medium leading-normal pb-2">Información de la Tarjeta *</label>
+              <div id="card-element" class="form-input w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d171b] focus:outline-0 focus:ring-0 border border-[#cfdfe7] bg-slate-50 focus:border-[#13a4ec] h-12 p-3 text-base font-normal leading-normal">
+                <!-- Stripe Elements se montará aquí -->
+              </div>
+              <div id="card-errors" class="text-red-500 text-sm mt-1" role="alert">
+                <!-- Los errores de Stripe aparecerán aquí -->
+              </div>
+            </div>
+
+            <!-- Nombre del Titular -->
+            <div>
+              <label class="block text-[#0d171b] text-base font-medium leading-normal pb-2">Nombre del Titular *</label>
+              <input
+                formControlName="cardholderName"
+                placeholder="Nombre como aparece en la tarjeta"
+                class="form-input w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d171b] focus:outline-0 focus:ring-0 border border-[#cfdfe7] bg-slate-50 focus:border-[#13a4ec] h-12 placeholder:text-[#4c809a] p-3 text-base font-normal leading-normal"
+              />
+              <div *ngIf="reservationForm.get('cardholderName')?.invalid && reservationForm.get('cardholderName')?.touched" class="text-red-500 text-sm mt-1">
+                Nombre del titular requerido
+              </div>
+            </div>
+
+            <!-- Observaciones -->
+            <div>
+              <label class="block text-[#0d171b] text-base font-medium leading-normal pb-2">Observaciones</label>
+              <textarea
+                formControlName="observation"
+                placeholder="Observaciones adicionales (opcional)"
+                class="form-input w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#0d171b] focus:outline-0 focus:ring-0 border border-[#cfdfe7] bg-slate-50 focus:border-[#13a4ec] h-12 placeholder:text-[#4c809a] p-3 text-base font-normal leading-normal"
+                rows="3"
+              ></textarea>
+            </div>
+          </div>
+          <h3 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Resumen de Costos</h3>
+          <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">{{ room?.type || 'Habitación' }} ({{ getNightsCount() }} noches)</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ room?.price || 0 }}/noche</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">Subtotal (Habitación)</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ (room?.price || 0) * getNightsCount() }}</p>
+            </div>
+            <ng-container *ngFor="let service of additionalServices">
+              <div *ngIf="service.selected" class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+                <p class="text-[#4c809a] text-sm font-normal leading-normal">{{ service.name }}</p>
+                <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ service.price }}</p>
+              </div>
+            </ng-container>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">Subtotal</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ getSubtotal() }}</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">IVA (12%)</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ getIva().toFixed(2) }}</p>
+            </div>
+            <div class="col-span-2 grid grid-cols-subgrid border-t-2 border-t-[#13a4ec] py-5">
+              <p class="text-[#0d171b] text-base font-bold leading-normal">Total</p>
+              <p class="text-[#0d171b] text-base font-bold leading-normal">${{ getTotal().toFixed(2) }}</p>
+            </div>
+          </div>
+
+          <div class="flex px-4 py-3">
+            <button
+              type="submit"
+              [disabled]="loading || reservationCreated"
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-[#13a4ec] text-slate-50 text-base font-bold leading-normal tracking-[0.015em] disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              <span *ngIf="loading" class="truncate">Creando Reserva...</span>
+              <span *ngIf="!loading && !reservationCreated" class="truncate">Procesar Pago y Reservar</span>
+              <span *ngIf="reservationCreated" class="truncate">Reserva Creada</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
