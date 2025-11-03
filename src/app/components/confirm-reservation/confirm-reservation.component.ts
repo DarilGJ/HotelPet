@@ -6,6 +6,7 @@ import { ReservationService } from '../../services/reservation.service';
 import { RoomService } from '../../services/room.service';
 import { CustomerService } from '../../services/customer.service';
 import { StripeService } from '../../services/stripe.service';
+import { AuthService } from '../../services/auth.service';
 import { Room } from '../../models/room.model';
 import { Customer } from '../../models/customer.model';
 import { ReservationCreateRequest, ReservationStatus } from '../../models/reservation.model';
@@ -51,7 +52,8 @@ export class ConfirmReservationComponent implements OnInit, OnDestroy {
     private reservationService: ReservationService,
     private roomService: RoomService,
     private customerService: CustomerService,
-    private stripeService: StripeService
+    private stripeService: StripeService,
+    private authService: AuthService
   ) {
     this.reservationForm = this.fb.group({
       cardholderName: ['', [Validators.required]],
@@ -107,12 +109,71 @@ export class ConfirmReservationComponent implements OnInit, OnDestroy {
       next: (customers) => {
         this.customers = customers;
         console.log('Clientes cargados:', customers);
+        
+        // Auto-seleccionar el cliente logueado
+        this.loadCurrentUserCustomer();
       },
       error: (error) => {
         console.error('Error loading customers:', error);
         this.errorMessage = 'Error al cargar la lista de clientes';
       }
     });
+  }
+
+  loadCurrentUserCustomer(): void {
+    // Primero intentar obtener el usuario actual desde el backend
+    this.authService.getCurrentUser().subscribe({
+      next: (currentUser) => {
+        console.log('Usuario actual obtenido:', currentUser);
+        
+        if (currentUser.customerId) {
+          // Si el usuario tiene un customerId, buscar ese cliente
+          const loggedInCustomer = this.customers.find(c => c.id === currentUser.customerId);
+          if (loggedInCustomer) {
+            this.selectCustomerAutomatically(loggedInCustomer);
+          }
+        } else {
+          // Si no tiene customerId, buscar por email
+          const loggedInCustomer = this.customers.find(c => c.email === currentUser.email);
+          if (loggedInCustomer) {
+            this.selectCustomerAutomatically(loggedInCustomer);
+          }
+        }
+      },
+      error: (error) => {
+        console.warn('No se pudo obtener el usuario actual, intentando por email del token:', error);
+        
+        // Fallback: buscar por email del token
+        const userEmail = this.authService.getEmailFromToken();
+        if (userEmail) {
+          const loggedInCustomer = this.customers.find(c => c.email === userEmail);
+          if (loggedInCustomer) {
+            this.selectCustomerAutomatically(loggedInCustomer);
+          }
+        }
+      }
+    });
+  }
+
+  selectCustomerAutomatically(customer: Customer): void {
+    if (!customer || !customer.id) {
+      return;
+    }
+
+    console.log('Auto-seleccionando cliente logueado:', customer);
+    
+    this.selectedCustomerId = customer.id;
+    this.customer = customer;
+    
+    // Auto-completar los campos del formulario
+    this.reservationForm.patchValue({
+      customerName: customer.name,
+      customerEmail: customer.email,
+      customerPhone: customer.phone,
+      cardholderName: `${customer.name} ${customer.lastName}`.trim() // Auto-completar nombre del titular
+    });
+    
+    console.log('Cliente auto-seleccionado y campos completados');
   }
 
   loadRoomData(roomId: number): void {

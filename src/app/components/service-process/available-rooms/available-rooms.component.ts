@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Room } from '../../../models/room.model';
 import { RoomService } from '../../../services/room.service';
+import { LoginComponent } from '../../login/login.component';
 
 @Component({
   selector: 'app-available-rooms',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, LoginComponent],
   templateUrl: './available-rooms.component.html',
   styleUrl: './available-rooms.component.scss'
 })
@@ -138,6 +139,26 @@ export class AvailableRoomsComponent implements OnInit, OnChanges {
 
   goToRooms(): void {
     this.router.navigate(['/rooms']);
+  }
+
+  goToLogin(room?: Room){
+    // Si se pasa una habitación, guardar los parámetros de reserva para después del login
+    const queryParams: any = {};
+    
+    if (room) {
+      // Guardar todos los parámetros necesarios para la reserva
+      queryParams.returnUrl = '/confirm-reservation';
+      queryParams.roomId = room.id;
+      queryParams.roomType = room.type;
+      queryParams.roomPrice = room.price;
+      queryParams.startDate = this.searchForm.startDate || this.searchParams.startDate;
+      queryParams.endDate = this.searchForm.endDate || this.searchParams.endDate;
+    } else {
+      // Si no hay habitación seleccionada, guardar la URL actual para volver después del login
+      queryParams.returnUrl = this.router.url;
+    }
+    
+    this.router.navigate(['/login'], { queryParams });
   }
 
 }

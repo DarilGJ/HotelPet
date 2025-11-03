@@ -18,8 +18,8 @@ export class NavbarComponent {
   }
 
   goToLogin() {
-    // Navegar a una página de login (puedes crear una o usar el dashboard)
-    this.router.navigate(['/dashboard']);
+    // Navegar a la página de login
+    this.router.navigate(['/login']);
   }
 
 }

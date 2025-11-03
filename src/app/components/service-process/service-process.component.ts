@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AvailableRoomsComponent } from './available-rooms/available-rooms.component';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-service-process',
   standalone: true,
-  imports: [AvailableRoomsComponent],
+  imports: [AvailableRoomsComponent, LoginComponent],
   templateUrl: './service-process.component.html',
   styleUrl: './service-process.component.scss'
 })
@@ -30,5 +31,12 @@ export class ServiceProcessComponent implements OnInit {
 
   goToProcess(){
     this.router.navigate(['/process']);
+  }
+
+  goToLogin(){
+    // Guardar la URL actual para volver después del login
+    this.router.navigate(['/login'], { 
+      queryParams: { returnUrl: this.router.url } 
+    });
   }
 }
