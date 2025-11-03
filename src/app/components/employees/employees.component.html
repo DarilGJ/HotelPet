@@ -22,6 +22,18 @@
         </div>
         
         <div class="form-group">
+          <label for="lastName">Apellido:</label>
+          <input 
+            type="text" 
+            id="lastName" 
+            [(ngModel)]="newEmployee.lastName" 
+            name="lastName" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
           <label for="email">Email:</label>
           <input 
             type="email" 
@@ -30,9 +42,7 @@
             name="email" 
             required>
         </div>
-      </div>
-      
-      <div class="form-row">
+        
         <div class="form-group">
           <label for="phone">Teléfono:</label>
           <input 
@@ -42,15 +52,34 @@
             name="phone" 
             required>
         </div>
-        
+      </div>
+      
+      <div class="form-row">
         <div class="form-group">
           <label for="position">Posición:</label>
-          <input 
-            type="text" 
+          <select 
             id="position" 
             [(ngModel)]="newEmployee.position" 
             name="position" 
             required>
+            <option value="">Seleccione una posición</option>
+            <option *ngFor="let pos of availablePositions" [value]="pos">
+              {{ pos }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="status">Estado:</label>
+          <select 
+            id="status" 
+            [(ngModel)]="newEmployee.status" 
+            name="status" 
+            required>
+            <option *ngFor="let stat of availableStatuses" [value]="stat.value">
+              {{ stat.label }}
+            </option>
+          </select>
         </div>
       </div>
       
@@ -74,16 +103,6 @@
             name="hireDate" 
             required>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="checkbox-label">
-          <input 
-            type="checkbox" 
-            [(ngModel)]="newEmployee.isActive" 
-            name="isActive">
-          Empleado Activo
-        </label>
       </div>
       
       <div class="form-actions">
@@ -113,6 +132,18 @@
         </div>
         
         <div class="form-group">
+          <label for="edit-lastName">Apellido:</label>
+          <input 
+            type="text" 
+            id="edit-lastName" 
+            [(ngModel)]="editingEmployee.lastName" 
+            name="edit-lastName" 
+            required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
           <label for="edit-email">Email:</label>
           <input 
             type="email" 
@@ -121,9 +152,7 @@
             name="edit-email" 
             required>
         </div>
-      </div>
-      
-      <div class="form-row">
+        
         <div class="form-group">
           <label for="edit-phone">Teléfono:</label>
           <input 
@@ -133,15 +162,34 @@
             name="edit-phone" 
             required>
         </div>
-        
+      </div>
+      
+      <div class="form-row">
         <div class="form-group">
           <label for="edit-position">Posición:</label>
-          <input 
-            type="text" 
+          <select 
             id="edit-position" 
             [(ngModel)]="editingEmployee.position" 
             name="edit-position" 
             required>
+            <option value="">Seleccione una posición</option>
+            <option *ngFor="let pos of availablePositions" [value]="pos">
+              {{ pos }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-status">Estado:</label>
+          <select 
+            id="edit-status" 
+            [(ngModel)]="editingEmployee.status" 
+            name="edit-status" 
+            required>
+            <option *ngFor="let stat of availableStatuses" [value]="stat.value">
+              {{ stat.label }}
+            </option>
+          </select>
         </div>
       </div>
       
@@ -167,16 +215,6 @@
         </div>
       </div>
       
-      <div class="form-group">
-        <label class="checkbox-label">
-          <input 
-            type="checkbox" 
-            [(ngModel)]="editingEmployee.isActive" 
-            name="edit-isActive">
-          Empleado Activo
-        </label>
-      </div>
-      
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">
           Actualizar
@@ -196,6 +234,7 @@
           <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Apellido</th>
             <th>Email</th>
             <th>Teléfono</th>
             <th>Posición</th>
@@ -209,14 +248,15 @@
           <tr *ngFor="let employee of employees">
             <td>{{ employee.id }}</td>
             <td>{{ employee.name }}</td>
+            <td>{{ employee.lastName }}</td>
             <td>{{ employee.email }}</td>
             <td>{{ employee.phone }}</td>
             <td>{{ employee.position }}</td>
             <td>${{ employee.salary | number:'1.2-2' }}</td>
             <td>{{ employee.hiringDate | date:'short' }}</td>
             <td>
-              <span class="status-badge" [ngClass]="employee.isActive ? 'active' : 'inactive'">
-                {{ employee.isActive ? 'Activo' : 'Inactivo' }}
+              <span class="status-badge" [ngClass]="employee.status === 'active' ? 'active' : 'inactive'">
+                {{ employee.status === 'active' ? 'Activo' : 'Inactivo' }}
               </span>
             </td>
             <td class="actions">

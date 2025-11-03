@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AvailableRoomsComponent } from './available-rooms/available-rooms.component';
 import { LoginComponent } from '../login/login.component';
+import { NavbarComponent } from '../landing/navbar/navbar.component';
+import { FooterComponent } from '../landing/footer/footer.component';
 
 @Component({
   selector: 'app-service-process',
   standalone: true,
-  imports: [AvailableRoomsComponent, LoginComponent],
+  imports: [AvailableRoomsComponent, LoginComponent, NavbarComponent, FooterComponent],
   templateUrl: './service-process.component.html',
   styleUrl: './service-process.component.scss'
 })

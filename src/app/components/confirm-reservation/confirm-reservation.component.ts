@@ -11,11 +11,13 @@ import { Room } from '../../models/room.model';
 import { Customer } from '../../models/customer.model';
 import { ReservationCreateRequest, ReservationStatus } from '../../models/reservation.model';
 import { AvailableRoomsComponent } from '../service-process/available-rooms/available-rooms.component';
+import { NavbarComponent } from '../landing/navbar/navbar.component';
+import { FooterComponent } from '../landing/footer/footer.component';
 
 @Component({
   selector: 'app-confirm-reservation',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, AvailableRoomsComponent],
+  imports: [ReactiveFormsModule, CommonModule, AvailableRoomsComponent, NavbarComponent, FooterComponent],
   templateUrl: './confirm-reservation.component.html',
   styleUrl: './confirm-reservation.component.scss'
 })
@@ -476,9 +478,9 @@ export class ConfirmReservationComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.reservationCreated = true;
         
-        // Redirigir a dashboard después de 3 segundos
+        // Redirigir a landing page después de 3 segundos
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/']);
         }, 3000);
       }
     } catch (error) {

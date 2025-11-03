@@ -1,4 +1,5 @@
-<div class="app-container" *ngIf="!isLandingPage">
+<!-- Rutas administrativas (con navbar y footer) -->
+<div class="app-container" *ngIf="!isPublicPage">
   <header class="app-header">
     <nav class="navbar">
       <div class="navbar-brand">
@@ -24,5 +25,5 @@
   </footer>
 </div>
 
-<!-- Landing page content (without app wrapper) -->
-<router-outlet *ngIf="isLandingPage"></router-outlet>
+<!-- Rutas públicas (sin navbar y footer administrativo) -->
+<router-outlet *ngIf="isPublicPage"></router-outlet>

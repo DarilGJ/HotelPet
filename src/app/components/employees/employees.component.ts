@@ -16,15 +16,33 @@ export class EmployeesComponent implements OnInit {
   showAddForm = false;
   editingEmployee: Employee | null = null;
   
-  newEmployee: EmployeeCreateRequest = {
+  // Posiciones disponibles
+  availablePositions = ['Manager', 'receptionist', 'janitors', 'petSitter', 'veterinary', 'logistics', 'finance', 'HHRR'];
+  
+  // Estados disponibles (valores para el backend)
+  availableStatuses = [
+    { value: 'active', label: 'Activo' },
+    { value: 'inactive', label: 'Inactivo' }
+  ];
+  
+  newEmployee: any = {
     name: '',
+    lastName: '',
     email: '',
     phone: '',
     position: '',
     salary: 0,
-    hiringDate: new Date(),
-    isActive: true
+    hiringDate: this.formatDateForInput(new Date()),
+    status: 'active'
   };
+
+  // Método para formatear fecha a formato YYYY-MM-DD para input type="date"
+  private formatDateForInput(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   constructor(private employeeService: EmployeeService) {}
 
@@ -40,13 +58,43 @@ export class EmployeesComponent implements OnInit {
   }
 
   addEmployee(): void {
-    this.employeeService.createEmployee(this.newEmployee).subscribe({
-      next: () => {
+    // Validar que todos los campos requeridos estén llenos
+    if (!this.newEmployee.name || !this.newEmployee.lastName || 
+        !this.newEmployee.email || !this.newEmployee.phone || 
+        !this.newEmployee.position || !this.newEmployee.salary) {
+      alert('Por favor, completa todos los campos requeridos');
+      return;
+    }
+
+    // Preparar los datos para enviar (convertir fecha string a Date)
+    const employeeData: EmployeeCreateRequest = {
+      name: this.newEmployee.name,
+      lastName: this.newEmployee.lastName,
+      email: this.newEmployee.email,
+      phone: this.newEmployee.phone,
+      position: this.newEmployee.position,
+      salary: Number(this.newEmployee.salary),
+      hiringDate: new Date(this.newEmployee.hiringDate), // Convertir string a Date
+      status: this.newEmployee.status as 'active' | 'inactive'
+    };
+
+    console.log('Datos a enviar:', employeeData);
+    
+    this.employeeService.createEmployee(employeeData).subscribe({
+      next: (response) => {
+        console.log('Empleado creado exitosamente:', response);
         this.loadEmployees();
         this.resetForm();
         this.showAddForm = false;
       },
-      error: (error) => console.error('Error creating employee:', error)
+      error: (error) => {
+        console.error('Error creando empleado:', error);
+        const errorMessage = error?.error?.message || error?.message || 'Error al crear el empleado';
+        alert(`Error: ${errorMessage}`);
+        if (error.error) {
+          console.error('Detalles del error:', error.error);
+        }
+      }
     });
   }
 
@@ -85,12 +133,13 @@ export class EmployeesComponent implements OnInit {
   private resetForm(): void {
     this.newEmployee = {
       name: '',
+      lastName: '',
       email: '',
       phone: '',
       position: '',
       salary: 0,
-      hiringDate: new Date(),
-      isActive: true
+      hiringDate: this.formatDateForInput(new Date()),
+      status: 'active'
     };
     this.editingEmployee = null;
   }

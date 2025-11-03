@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { NavbarComponent } from '../landing/navbar/navbar.component';
+import { FooterComponent } from '../landing/footer/footer.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, FooterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

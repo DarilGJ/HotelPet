@@ -12,13 +12,26 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'Pet Hotel';
-  isLandingPage = false;
+  isPublicPage = false;
+
+  // Rutas públicas que no deben mostrar navbar/footer administrativo
+  private publicRoutes = ['/', '/login', '/process', '/confirm-reservation'];
 
   constructor(private router: Router) {
+    // Verificar la ruta inicial
+    this.checkCurrentRoute();
+    
+    // Escuchar cambios de ruta
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event) => {
-        this.isLandingPage = (event as NavigationEnd).url === '/';
+        const url = (event as NavigationEnd).url.split('?')[0]; // Remover query params
+        this.isPublicPage = this.publicRoutes.some(route => url === route);
       });
+  }
+
+  private checkCurrentRoute(): void {
+    const url = this.router.url.split('?')[0]; // Remover query params
+    this.isPublicPage = this.publicRoutes.some(route => url === route);
   }
 }

@@ -47,7 +47,6 @@ export const routes: Routes = [
   },
   {
     path: 'confirm-reservation',
-    canMatch: [authGuard],
     loadComponent: () => import('./components/confirm-reservation/confirm-reservation.component').then(m => m.ConfirmReservationComponent)
   },
   {

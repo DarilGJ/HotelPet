@@ -21,11 +21,54 @@ export class EmployeeService {
   }
 
   createEmployee(employee: EmployeeCreateRequest): Observable<Employee> {
-    return this.http.post<Employee>(this.apiUrl, employee);
+    // Preparar los datos para enviar al backend
+    // Manejar la fecha: puede venir como Date, string o undefined
+    let hiringDateFormatted: string;
+    if (employee.hiringDate instanceof Date) {
+      hiringDateFormatted = employee.hiringDate.toISOString().split('T')[0];
+    } else if (typeof employee.hiringDate === 'string') {
+      // Si ya es string, usar directamente (formato YYYY-MM-DD)
+      hiringDateFormatted = employee.hiringDate;
+    } else {
+      // Si no hay fecha, usar la fecha actual
+      hiringDateFormatted = new Date().toISOString().split('T')[0];
+    }
+    
+    const payload: any = {
+      name: employee.name,
+      lastName: employee.lastName,
+      email: employee.email,
+      phone: employee.phone,
+      position: employee.position,
+      salary: employee.salary,
+      hiringDate: hiringDateFormatted,
+      status: employee.status
+    };
+    
+    // Si el backend aún usa isActive en lugar de status, agregarlo también
+    // payload.isActive = employee.status === 'activo';
+    
+    console.log('Payload enviado al backend:', payload);
+    
+    return this.http.post<Employee>(this.apiUrl, payload);
   }
 
   updateEmployee(id: number, employee: EmployeeUpdateRequest): Observable<Employee> {
-    return this.http.put<Employee>(`${this.apiUrl}/${id}`, employee);
+    // Preparar los datos para enviar al backend (similar a create)
+    const payload: any = { ...employee };
+    
+    // Manejar la fecha si está presente
+    if (employee.hiringDate) {
+      if (employee.hiringDate instanceof Date) {
+        payload.hiringDate = employee.hiringDate.toISOString().split('T')[0];
+      } else if (typeof employee.hiringDate === 'string') {
+        payload.hiringDate = employee.hiringDate;
+      }
+    }
+    
+    console.log('Payload de actualización enviado al backend:', payload);
+    
+    return this.http.put<Employee>(`${this.apiUrl}/${id}`, payload);
   }
 
   deleteEmployee(id: number): Observable<void> {
