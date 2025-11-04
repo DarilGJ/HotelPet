@@ -8,6 +8,27 @@ export interface LoginRequest {
   password: string;
 }
 
+  export interface RegisterRequest {
+  email: string;
+  password: string;
+  usertype: 'staff' | 'customer';
+  employeeId?: number | null;
+  customerId?: number | null;
+}
+
+export interface RegisterResponse {
+  message: string;
+  user: {
+    id: number;
+    email: string;
+    usertype: string;
+    employeeId?: number | null;
+    customerId?: number | null;
+    isActive: boolean;
+    createdAt: string;
+  };
+}
+
 export interface LoginResponse {
   token: string;
   user?: {
@@ -40,6 +61,11 @@ export class AuthService {
         }
       })
     );
+  }
+
+  register(userData: RegisterRequest): Observable<RegisterResponse> {
+    const url = `${environment.apiUrl}/users/register`;
+    return this.http.post<RegisterResponse>(url, userData);
   }
 
   logout(): void {

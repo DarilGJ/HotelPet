@@ -2,30 +2,200 @@
   <app-navbar></app-navbar>
 
   <main class="flex-grow flex items-center justify-center py-12">
-    <div class="max-w-md w-full mx-auto p-6">
-      <h1 class="text-2xl font-semibold mb-4">Iniciar sesión</h1>
+    <div class="max-w-md w-full mx-auto p-6 bg-card-light dark:bg-card-dark rounded-lg shadow-lg">
+      <!-- Toggle entre Login y Registro -->
+      <div class="flex mb-6 border-b border-border-light dark:border-border-dark">
+        <button
+          (click)="toggleMode()"
+          [class.active]="!isRegisterMode"
+          class="flex-1 py-2 px-4 text-center font-medium transition-colors"
+          [class.bg-primary]="!isRegisterMode"
+          [class.text-white]="!isRegisterMode"
+          [class.text-text-light]="isRegisterMode"
+          [class.dark:text-text-dark]="isRegisterMode"
+          type="button">
+          Iniciar Sesión
+        </button>
+        <button
+          (click)="toggleMode()"
+          [class.active]="isRegisterMode"
+          class="flex-1 py-2 px-4 text-center font-medium transition-colors"
+          [class.bg-primary]="isRegisterMode"
+          [class.text-white]="isRegisterMode"
+          [class.text-text-light]="!isRegisterMode"
+          [class.dark:text-text-dark]="!isRegisterMode"
+          type="button">
+          Crear Cuenta
+        </button>
+      </div>
 
-      <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+      <h1 class="text-2xl font-semibold mb-4">
+        {{ isRegisterMode ? 'Crear nueva cuenta' : 'Iniciar sesión' }}
+      </h1>
+
+      <!-- Formulario de Login -->
+      <form [formGroup]="loginForm" (ngSubmit)="submit()" *ngIf="!isRegisterMode" class="space-y-4">
         <div>
-          <label class="block mb-1">Correo</label>
-          <input class="w-full border rounded px-3 py-2" type="email" formControlName="email" placeholder="tu@correo.com" />
-          <div class="text-red-600 text-sm" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
-            Correo inválido
+          <label class="block mb-1 text-sm font-medium">Correo</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="email" 
+            formControlName="email" 
+            placeholder="tu@correo.com" />
+          <div class="text-red-600 text-sm mt-1" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+            <span *ngIf="loginForm.get('email')?.errors?.['required']">El correo es requerido</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']">Correo inválido</span>
           </div>
         </div>
 
         <div>
-          <label class="block mb-1">Contraseña</label>
-          <input class="w-full border rounded px-3 py-2" type="password" formControlName="password" placeholder="••••••" />
-          <div class="text-red-600 text-sm" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
-            Mínimo 6 caracteres
+          <label class="block mb-1 text-sm font-medium">Contraseña</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="password" 
+            formControlName="password" 
+            placeholder="••••••" />
+          <div class="text-red-600 text-sm mt-1" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres</span>
           </div>
         </div>
 
-        <div *ngIf="errorMessage" class="text-red-700 text-sm">{{ errorMessage }}</div>
+        <div *ngIf="errorMessage" class="text-red-700 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded">
+          {{ errorMessage }}
+        </div>
 
-        <button class="bg-blue-600 text-white px-4 py-2 rounded" type="submit" [disabled]="loading">
+        <button 
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors font-medium" 
+          type="submit" 
+          [disabled]="loading">
           {{ loading ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+      </form>
+
+      <!-- Formulario de Registro -->
+      <form [formGroup]="registerForm" (ngSubmit)="submit()" *ngIf="isRegisterMode" class="space-y-4">
+        <div>
+          <label class="block mb-1 text-sm font-medium">Correo</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="email" 
+            formControlName="email" 
+            placeholder="tu@correo.com" />
+          <div class="text-red-600 text-sm mt-1" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">El correo es requerido</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">Correo inválido</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium">Contraseña</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="password" 
+            formControlName="password" 
+            placeholder="••••••" />
+          <div class="text-red-600 text-sm mt-1" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium">Confirmar Contraseña</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="password" 
+            formControlName="confirmPassword" 
+            placeholder="••••••" />
+          <div class="text-red-600 text-sm mt-1" *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid">
+            <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirma tu contraseña</span>
+            <span *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">Las contraseñas no coinciden</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium">Tipo de Usuario</label>
+          <select 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary"
+            formControlName="usertype">
+            <option value="customer">Cliente</option>
+            <option value="staff">Personal</option>
+          </select>
+          <div class="text-red-600 text-sm mt-1" *ngIf="registerForm.get('usertype')?.touched && registerForm.get('usertype')?.invalid">
+            El tipo de usuario es requerido
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium">Nombre</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="text" 
+            formControlName="name" 
+            placeholder="Tu nombre" />
+          <div class="text-red-600 text-sm mt-1" *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid">
+            El nombre es requerido
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium">Apellido</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="text" 
+            formControlName="lastName" 
+            placeholder="Tu apellido" />
+          <div class="text-red-600 text-sm mt-1" *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid">
+            El apellido es requerido
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-sm font-medium">Teléfono</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="tel" 
+            formControlName="phone" 
+            placeholder="Tu teléfono" />
+          <div class="text-red-600 text-sm mt-1" *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid">
+            El teléfono es requerido
+          </div>
+        </div>
+
+        <!-- Campo Dirección (solo para customer) -->
+        <div *ngIf="registerForm.get('usertype')?.value === 'customer'">
+          <label class="block mb-1 text-sm font-medium">Dirección (Opcional)</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="text" 
+            formControlName="address" 
+            placeholder="Tu dirección" />
+        </div>
+
+        <!-- Campo DPI (solo para customer) -->
+        <div *ngIf="registerForm.get('usertype')?.value === 'customer'">
+          <label class="block mb-1 text-sm font-medium">DPI (Opcional)</label>
+          <input 
+            class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary" 
+            type="text" 
+            formControlName="dpi" 
+            placeholder="Tu DPI" />
+        </div>
+
+        <div *ngIf="errorMessage" class="text-red-700 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded">
+          {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="text-green-700 text-sm bg-green-50 dark:bg-green-900/20 p-3 rounded">
+          {{ successMessage }}
+        </div>
+
+        <button 
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors font-medium" 
+          type="submit" 
+          [disabled]="loading">
+          {{ loading ? 'Registrando...' : 'Crear Cuenta' }}
         </button>
       </form>
     </div>
