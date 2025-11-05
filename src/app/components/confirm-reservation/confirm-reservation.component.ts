@@ -474,14 +474,21 @@ export class ConfirmReservationComponent implements OnInit, OnDestroy {
       console.log('Creando reserva con datos:', reservationData);
       const reservation = await this.reservationService.createReservation(reservationData).toPromise();
       
-      if (reservation) {
+      if (reservation && reservation.id) {
         this.loading = false;
         this.reservationCreated = true;
         
-        // Redirigir a landing page después de 3 segundos
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 3000);
+        // Redirigir a la página de pago exitoso con los datos de la reserva
+        const petName = this.reservationForm.get('petName')?.value || '';
+        const petBreed = this.reservationForm.get('petBreed')?.value || '';
+        
+        this.router.navigate(['/payment-success'], {
+          queryParams: {
+            reservationId: reservation.id,
+            petName: petName,
+            petBreed: petBreed
+          }
+        });
       }
     } catch (error) {
       console.error('Error creando reserva:', error);

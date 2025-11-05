@@ -50,6 +50,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/confirm-reservation/confirm-reservation.component').then(m => m.ConfirmReservationComponent)
   },
   {
+    path: 'payment-success',
+    loadComponent: () => import('./components/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent)
+  },
+  {
     path: '**',
     redirectTo: '/dashboard'
   }

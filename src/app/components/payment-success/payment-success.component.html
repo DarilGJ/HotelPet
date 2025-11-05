@@ -1,0 +1,113 @@
+<div
+  class="relative flex h-auto min-h-screen w-full flex-col bg-slate-50"
+  style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'
+>
+  <app-navbar></app-navbar>
+
+  <div class="layout-container flex h-full grow flex-col">
+    <div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+      <div class="layout-content-container flex flex-col w-full max-w-[512px] py-5">
+        <!-- Loading State -->
+        <div *ngIf="loading" class="flex items-center justify-center py-20">
+          <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#13a4ec] mx-auto mb-4"></div>
+            <p class="text-[#4c809a]">Cargando información de la reserva...</p>
+          </div>
+        </div>
+
+        <!-- Success Content -->
+        <div *ngIf="!loading">
+          <h2 class="text-[#0d171b] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">
+            ¡Pago Exitoso!
+          </h2>
+          
+          <p class="text-[#0d171b] text-base font-normal leading-normal pb-3 pt-1 px-4 text-center">
+            Tu reserva está confirmada. ¡Estamos emocionados de recibir a tu mascota en HotelPet!
+          </p>
+
+          <!-- Confirmation Number -->
+          <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2 border border-[#e7eff3] rounded-lg mb-2">
+            <div class="text-[#0d171b] flex items-center justify-center rounded-lg bg-[#e7eff3] shrink-0 size-12">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M224,88H175.4l8.47-46.57a8,8,0,0,0-15.74-2.86l-9,49.43H111.4l8.47-46.57a8,8,0,0,0-15.74-2.86L95.14,88H48a8,8,0,0,0,0,16H92.23L83.5,152H32a8,8,0,0,0,0,16H80.6l-8.47,46.57a8,8,0,0,0,6.44,9.3A7.79,7.79,0,0,0,80,224a8,8,0,0,0,7.86-6.57l9-49.43H144.6l-8.47,46.57a8,8,0,0,0,6.44,9.3A7.79,7.79,0,0,0,144,224a8,8,0,0,0,7.86-6.57l9-49.43H208a8,8,0,0,0,0-16H163.77l8.73-48H224a8,8,0,0,0,0-16Zm-76.5,64H99.77l8.73-48h47.73Z"
+                ></path>
+              </svg>
+            </div>
+            <div class="flex flex-col justify-center">
+              <p class="text-[#0d171b] text-base font-medium leading-normal line-clamp-1">Número de Confirmación</p>
+              <p class="text-[#4c809a] text-sm font-normal leading-normal line-clamp-2">{{ getConfirmationNumber() }}</p>
+            </div>
+          </div>
+
+          <!-- Room Type -->
+          <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2 border border-[#e7eff3] rounded-lg mb-2">
+            <div class="text-[#0d171b] flex items-center justify-center rounded-lg bg-[#e7eff3] shrink-0 size-12">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M208,72H24V48A8,8,0,0,0,8,48V208a8,8,0,0,0,16,0V176H232v32a8,8,0,0,0,16,0V112A40,40,0,0,0,208,72ZM24,88H96v72H24Zm88,72V88h96a24,24,0,0,1,24,24v48Z"
+                ></path>
+              </svg>
+            </div>
+            <div class="flex flex-col justify-center">
+              <p class="text-[#0d171b] text-base font-medium leading-normal line-clamp-1">Tipo de Habitación</p>
+              <p class="text-[#4c809a] text-sm font-normal leading-normal line-clamp-2">{{ getRoomTypeText() }}</p>
+            </div>
+          </div>
+
+          <!-- Pet Type -->
+          <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2 border border-[#e7eff3] rounded-lg mb-2">
+            <div class="text-[#0d171b] flex items-center justify-center rounded-lg bg-[#e7eff3] shrink-0 size-12">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M212,80a28,28,0,1,0,28,28A28,28,0,0,0,212,80Zm0,40a12,12,0,1,1,12-12A12,12,0,0,1,212,120ZM72,108a28,28,0,1,0-28,28A28,28,0,0,0,72,108ZM44,120a12,12,0,1,1,12-12A12,12,0,0,1,44,120ZM92,88A28,28,0,1,0,64,60,28,28,0,0,0,92,88Zm0-40A12,12,0,1,1,80,60,12,12,0,0,1,92,48Zm72,40a28,28,0,1,0-28-28A28,28,0,0,0,164,88Zm0-40a12,12,0,1,1-12,12A12,12,0,0,1,164,48Zm23.12,100.86a35.3,35.3,0,0,1-16.87-21.14,44,44,0,0,0-84.5,0A35.25,35.25,0,0,1,69,148.82,40,40,0,0,0,88,224a39.48,39.48,0,0,0,15.52-3.13,64.09,64.09,0,0,1,48.87,0,40,40,0,0,0,34.73-72ZM168,208a24,24,0,0,1-9.45-1.93,80.14,80.14,0,0,0-61.19,0,24,24,0,0,1-20.71-43.26,51.22,51.22,0,0,0,24.46-30.67,28,28,0,0,1,53.78,0,51.27,51.27,0,0,0,24.53,30.71A24,24,0,0,1,168,208Z"
+                ></path>
+              </svg>
+            </div>
+            <div class="flex flex-col justify-center">
+              <p class="text-[#0d171b] text-base font-medium leading-normal line-clamp-1">Tipo de Mascota</p>
+              <p class="text-[#4c809a] text-sm font-normal leading-normal line-clamp-2">
+                {{ petName ? petName + ' (' + getPetTypeText() + ')' : getPetTypeText() }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Check-in/Check-out -->
+          <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-[72px] py-2 border border-[#e7eff3] rounded-lg mb-4">
+            <div class="text-[#0d171b] flex items-center justify-center rounded-lg bg-[#e7eff3] shrink-0 size-12">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path
+                  d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"
+                ></path>
+              </svg>
+            </div>
+            <div class="flex flex-col justify-center">
+              <p class="text-[#0d171b] text-base font-medium leading-normal line-clamp-1">Check-in/Check-out</p>
+              <p class="text-[#4c809a] text-sm font-normal leading-normal line-clamp-2">{{ getCheckInOutDates() }}</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex justify-center">
+            <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 max-w-[480px] justify-center">
+              <button
+                (click)="viewBookingDetails()"
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#13a4ec] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em] grow hover:bg-[#0d8cc9] transition-colors"
+              >
+                <span class="truncate">Ver Detalles de la Reserva</span>
+              </button>
+              <button
+                (click)="returnToHome()"
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e7eff3] text-[#0d171b] text-sm font-bold leading-normal tracking-[0.015em] grow hover:bg-[#d1dfe7] transition-colors"
+              >
+                <span class="truncate">Volver al Inicio</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>
