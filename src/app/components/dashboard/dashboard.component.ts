@@ -2,7 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import { ReservationService } from 'src/app/services/reservation.service';
+import { CustomerService } from 'src/app/services/customer.service';
+import { RoomService } from 'src/app/services/room.service';
+import { EmployeeService } from 'src/app/services/employee.service';
 import { Reservation } from 'src/app/models/reservation.model';
+import { Customer } from 'src/app/models/customer.model';
+import { Room } from 'src/app/models/room.model';
+import { Employee } from 'src/app/models/employee.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,13 +30,24 @@ export class DashboardComponent implements OnInit {
   };
 
   recentReservations: Reservation[] = [];
+  customers: Customer[] = [];
+  rooms: Room[] = [];
+  employees: Employee[] = [];
 
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private reservationService: ReservationService,
+    private customerService: CustomerService,
+    private roomService: RoomService,
+    private employeeService: EmployeeService
   ) { }
 
   ngOnInit(): void {
     this.loadDashboardData();
+    // Cargar datos relacionados (customers, rooms, employees) como en el componente de reservas
+    this.loadCustomers();
+    this.loadRooms();
+    this.loadEmployees();
   }
 
   private loadDashboardData(): void {
@@ -46,30 +64,108 @@ export class DashboardComponent implements OnInit {
       }
     });
     
-    // Cargar reservas recientes con detalles completos
-    this.dashboardService.getRecentReservationsWithDetails().subscribe({
+    // Cargar reservas recientes usando el mismo método que el componente de reservas
+    this.loadRecentReservations();
+  }
+
+  private loadRecentReservations(): void {
+    // Intentar primero con el método que incluye relaciones (igual que en reservations.component)
+    this.reservationService.getReservationsWithRelations().subscribe({
       next: (reservations) => {
-        console.log('Reservas recientes cargadas con detalles', reservations);
-        console.log('Primera reserva (si existe):', reservations[0]);
-        if (reservations[0]) {
-          console.log('Customer de la primera reserva:', reservations[0].customer);
-          console.log('Room de la primera reserva:', reservations[0].room);
-          console.log('Employee de la primera reserva:', reservations[0].employee);
-        }
-        this.recentReservations = reservations;
+        console.log('Reservas cargadas con relaciones:', reservations);
+        // Ordenar por fecha de inicio (más recientes primero) y tomar las primeras 5
+        const sorted = (reservations || []).sort((a, b) => {
+          const dateA = new Date(a.startDate).getTime();
+          const dateB = new Date(b.startDate).getTime();
+          return dateB - dateA;
+        });
+        this.recentReservations = sorted.slice(0, 5);
+        // Asegurar que los datos relacionados estén cargados
+        this.loadRelatedDataForReservations();
       },
       error: (error) => {
-        console.error('Error cargando reservas recientes:', error);
-        // Fallback al método original si el nuevo falla
-        this.dashboardService.getRecentReservations().subscribe({
+        console.warn('Error cargando reservas con relaciones, intentando método alternativo:', error);
+        // Fallback al método original si el nuevo no funciona
+        this.reservationService.getAllReservations().subscribe({
           next: (reservations) => {
-            console.log('Fallback: Reservas recientes cargadas sin detalles', reservations);
-            this.recentReservations = reservations;
+            console.log('Reservas cargadas (método alternativo):', reservations);
+            // Ordenar por fecha de inicio (más recientes primero) y tomar las primeras 5
+            const sorted = (reservations || []).sort((a, b) => {
+              const dateA = new Date(a.startDate).getTime();
+              const dateB = new Date(b.startDate).getTime();
+              return dateB - dateA;
+            });
+            this.recentReservations = sorted.slice(0, 5);
+            // Cargar datos relacionados manualmente
+            this.loadRelatedDataForReservations();
           },
           error: (fallbackError) => {
-            console.error('Error en fallback cargando reservas recientes:', fallbackError);
+            console.error('Error loading reservations:', fallbackError);
+            this.recentReservations = [];
           }
         });
+      }
+    });
+  }
+
+  private loadCustomers(): void {
+    this.customerService.getAllCustomers().subscribe({
+      next: (customers) => {
+        this.customers = customers;
+        // Si las reservas ya están cargadas, actualizar los datos relacionados
+        this.loadRelatedDataForReservations();
+      },
+      error: (error) => console.error('Error loading customers:', error)
+    });
+  }
+
+  private loadRooms(): void {
+    this.roomService.getAllRooms().subscribe({
+      next: (rooms) => {
+        this.rooms = rooms;
+        // Si las reservas ya están cargadas, actualizar los datos relacionados
+        this.loadRelatedDataForReservations();
+      },
+      error: (error) => console.error('Error loading rooms:', error)
+    });
+  }
+
+  private loadEmployees(): void {
+    this.employeeService.getAllEmployees().subscribe({
+      next: (employees) => {
+        this.employees = employees;
+        // Si las reservas ya están cargadas, actualizar los datos relacionados
+        this.loadRelatedDataForReservations();
+      },
+      error: (error) => console.error('Error loading employees:', error)
+    });
+  }
+
+  // Método auxiliar para cargar datos relacionados si no están disponibles (igual que en reservations.component)
+  private loadRelatedDataForReservations(): void {
+    this.recentReservations.forEach(reservation => {
+      // Cargar datos del cliente si no están disponibles
+      if (!reservation.customer && reservation.customerId) {
+        const customer = this.customers.find(c => c.id === reservation.customerId);
+        if (customer) {
+          reservation.customer = customer;
+        }
+      }
+      
+      // Cargar datos de la habitación si no están disponibles
+      if (!reservation.room && reservation.roomId) {
+        const room = this.rooms.find(r => r.id === reservation.roomId);
+        if (room) {
+          reservation.room = room;
+        }
+      }
+      
+      // Cargar datos del empleado si no están disponibles
+      if (!reservation.employee && reservation.employeeId) {
+        const employee = this.employees.find(e => e.id === reservation.employeeId);
+        if (employee) {
+          reservation.employee = employee;
+        }
       }
     });
   }

@@ -120,7 +120,7 @@
             class="w-full border border-border-light dark:border-border-dark rounded px-3 py-2 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-primary"
             formControlName="usertype">
             <option value="customer">Cliente</option>
-            <option value="staff">Personal</option>
+            <!--<option value="staff">Personal</option>-->
           </select>
           <div class="text-red-600 text-sm mt-1" *ngIf="registerForm.get('usertype')?.touched && registerForm.get('usertype')?.invalid">
             El tipo de usuario es requerido

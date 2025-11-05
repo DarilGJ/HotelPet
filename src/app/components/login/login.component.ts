@@ -202,18 +202,43 @@ export class LoginComponent implements OnInit {
 
           this.authService.register(registerData).subscribe({
             next: (response) => {
-              this.loading = false;
-              this.successMessage = response.message || 'Usuario registrado exitosamente. Redirigiendo al login...';
-              // Limpiar el formulario
-              this.registerForm.reset();
-              this.registerForm.patchValue({ usertype: 'customer' });
-              // Cambiar a modo login después de 2 segundos
-              setTimeout(() => {
-                this.isRegisterMode = false;
-                this.successMessage = '';
-                // Auto-llenar el formulario de login con el email registrado
-                this.loginForm.patchValue({ email: email! });
-              }, 2000);
+              // Después de registrar, hacer login automático
+              this.authService.login({ email: email!, password: password! }).subscribe({
+                next: () => {
+                  this.loading = false;
+                  // Si hay una URL de retorno con parámetros de reserva, redirigir allí
+                  if (this.returnUrl === '/confirm-reservation' && this.reservationParams.roomId) {
+                    this.router.navigate([this.returnUrl], { queryParams: this.reservationParams });
+                  } 
+                  // Si hay otra URL de retorno, usarla
+                  else if (this.returnUrl && this.returnUrl !== '/login') {
+                    // Si la returnUrl tiene queryParams, parsearlos
+                    const urlTree = this.router.parseUrl(this.returnUrl);
+                    if (Object.keys(this.reservationParams).length > 0) {
+                      urlTree.queryParams = { ...urlTree.queryParams, ...this.reservationParams };
+                    }
+                    this.router.navigateByUrl(urlTree);
+                  } 
+                  // Por defecto, ir al dashboard
+                  else {
+                    this.router.navigate(['/dashboard']);
+                  }
+                },
+                error: (loginErr) => {
+                  this.loading = false;
+                  // Si el login falla, mostrar mensaje pero el registro fue exitoso
+                  this.successMessage = response.message || 'Usuario registrado exitosamente. Por favor, inicia sesión.';
+                  this.errorMessage = loginErr?.error?.message || 'Error al iniciar sesión automáticamente';
+                  // Limpiar el formulario y cambiar a modo login
+                  this.registerForm.reset();
+                  this.registerForm.patchValue({ usertype: 'customer' });
+                  setTimeout(() => {
+                    this.isRegisterMode = false;
+                    this.successMessage = '';
+                    this.loginForm.patchValue({ email: email! });
+                  }, 2000);
+                }
+              });
             },
             error: (err) => {
               this.loading = false;
@@ -253,18 +278,43 @@ export class LoginComponent implements OnInit {
 
           this.authService.register(registerData).subscribe({
             next: (response) => {
-              this.loading = false;
-              this.successMessage = response.message || 'Usuario registrado exitosamente. Redirigiendo al login...';
-              // Limpiar el formulario
-              this.registerForm.reset();
-              this.registerForm.patchValue({ usertype: 'customer' });
-              // Cambiar a modo login después de 2 segundos
-              setTimeout(() => {
-                this.isRegisterMode = false;
-                this.successMessage = '';
-                // Auto-llenar el formulario de login con el email registrado
-                this.loginForm.patchValue({ email: email! });
-              }, 2000);
+              // Después de registrar, hacer login automático
+              this.authService.login({ email: email!, password: password! }).subscribe({
+                next: () => {
+                  this.loading = false;
+                  // Si hay una URL de retorno con parámetros de reserva, redirigir allí
+                  if (this.returnUrl === '/confirm-reservation' && this.reservationParams.roomId) {
+                    this.router.navigate([this.returnUrl], { queryParams: this.reservationParams });
+                  } 
+                  // Si hay otra URL de retorno, usarla
+                  else if (this.returnUrl && this.returnUrl !== '/login') {
+                    // Si la returnUrl tiene queryParams, parsearlos
+                    const urlTree = this.router.parseUrl(this.returnUrl);
+                    if (Object.keys(this.reservationParams).length > 0) {
+                      urlTree.queryParams = { ...urlTree.queryParams, ...this.reservationParams };
+                    }
+                    this.router.navigateByUrl(urlTree);
+                  } 
+                  // Por defecto, ir al dashboard
+                  else {
+                    this.router.navigate(['/dashboard']);
+                  }
+                },
+                error: (loginErr) => {
+                  this.loading = false;
+                  // Si el login falla, mostrar mensaje pero el registro fue exitoso
+                  this.successMessage = response.message || 'Usuario registrado exitosamente. Por favor, inicia sesión.';
+                  this.errorMessage = loginErr?.error?.message || 'Error al iniciar sesión automáticamente';
+                  // Limpiar el formulario y cambiar a modo login
+                  this.registerForm.reset();
+                  this.registerForm.patchValue({ usertype: 'customer' });
+                  setTimeout(() => {
+                    this.isRegisterMode = false;
+                    this.successMessage = '';
+                    this.loginForm.patchValue({ email: email! });
+                  }, 2000);
+                }
+              });
             },
             error: (err) => {
               this.loading = false;

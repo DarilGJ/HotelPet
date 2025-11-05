@@ -57,11 +57,28 @@
     <div class="reservations-list" *ngIf="recentReservations.length > 0; else noReservations">
       <div *ngFor="let reservation of recentReservations" class="reservation-item">
         <div class="reservation-info">
-          <h4>{{ reservation.customer?.name || 'Cliente no disponible' }}</h4>
-          <p><strong>Habitación:</strong> {{ reservation.room?.number || 'N/A' }} - {{ reservation.room?.type || 'Tipo no disponible' }}</p>
+          <h4>
+            <div *ngIf="reservation.customer; else customerNotAvailable">
+              {{ reservation.customer.name }} {{ reservation.customer.lastName }}
+            </div>
+            <ng-template #customerNotAvailable>
+              <span class="text-red-500">Cliente ID: {{ reservation.customerId }}</span>
+            </ng-template>
+          </h4>
+          <p *ngIf="reservation.room; else roomNotAvailable">
+            <strong>Habitación:</strong> {{ reservation.room.number }} - {{ reservation.room.type }}
+          </p>
+          <ng-template #roomNotAvailable>
+            <p><strong>Habitación:</strong> <span class="text-red-500">ID: {{ reservation.roomId }} - No disponible</span></p>
+          </ng-template>
           <p><strong>Fecha de entrada:</strong> {{ reservation.startDate | date:'short' }}</p>
           <p><strong>Fecha de salida:</strong> {{ reservation.endDate | date:'short' }}</p>
-          <p><strong>Empleado:</strong> {{ reservation.employee?.name || 'N/A' }}</p>
+          <p *ngIf="reservation.employee; else employeeNotAvailable">
+            <strong>Empleado:</strong> {{ reservation.employee.name }} {{ reservation.employee.lastName || '' }}
+          </p>
+          <ng-template #employeeNotAvailable>
+            <p><strong>Empleado:</strong> <span class="text-red-500">ID: {{ reservation.employeeId }} - No disponible</span></p>
+          </ng-template>
           <p><strong>Total:</strong> ${{ reservation.total | number:'1.2-2' }}</p>
           <p><strong>Estado:</strong> {{ reservation.status }}</p>
         </div>
