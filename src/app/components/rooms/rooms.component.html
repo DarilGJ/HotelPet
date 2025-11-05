@@ -71,13 +71,16 @@
       </div>
       
       <div class="form-group">
-        <label class="checkbox-label">
-          <input 
-            type="checkbox" 
-            [(ngModel)]="newRoom.isAvailable" 
-            name="isAvailable">
-          Habitación Disponible
-        </label>
+        <label for="availability">Estado de Disponibilidad:</label>
+        <select 
+          id="availability" 
+          [(ngModel)]="newRoom.availability" 
+          name="availability"
+          required>
+          <option value="available">Disponible</option>
+          <option value="occupied">Ocupada</option>
+          <option value="maintenance">Mantenimiento</option>
+        </select>
       </div>
       
       <div class="form-actions">
@@ -156,13 +159,16 @@
       </div>
       
       <div class="form-group">
-        <label class="checkbox-label">
-          <input 
-            type="checkbox" 
-            [(ngModel)]="editingRoom.isAvailable" 
-            name="edit-isAvailable">
-          Habitación Disponible
-        </label>
+        <label for="edit-availability">Estado de Disponibilidad:</label>
+        <select 
+          id="edit-availability" 
+          [(ngModel)]="editingRoom.availability" 
+          name="edit-availability"
+          required>
+          <option value="available">Disponible</option>
+          <option value="occupied">Ocupada</option>
+          <option value="maintenance">Mantenimiento</option>
+        </select>
       </div>
       
       <div class="form-actions">
@@ -200,9 +206,12 @@
             <td>{{ room.capacity }}</td>
             <td>${{ room.price | number:'1.2-2' }}</td>
             <td>
-              <span class="status-badge" [ngClass]="room.isAvailable ? 'available' : 'occupied'">
-                {{ room.isAvailable ? 'Disponible' : 'Ocupada' }}
+              <span class="status-badge" [ngClass]="'status-' + getAvailabilityClass(getRoomAvailability(room))">
+                {{ getAvailabilityText(getRoomAvailability(room)) }}
               </span>
+              <small *ngIf="hasAvailabilityMismatch(room)" class="mismatch-warning" style="display: block; color: orange; font-size: 0.8em; margin-top: 4px;">
+                ⚠ Sugerencia: {{ getAvailabilityText(getCalculatedAvailability(room)) }} según reservas
+              </small>
             </td>
             <td>{{ room.description || 'Sin descripción' }}</td>
             <td class="actions">

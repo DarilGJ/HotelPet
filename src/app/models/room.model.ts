@@ -1,10 +1,22 @@
+export enum RoomType {
+  SINGLE = 'single',
+  DOUBLE = 'double',
+  SUITE = 'suite'
+}
+
+export enum RoomAvailability {
+  AVAILABLE = 'available',
+  OCCUPIED = 'occupied',
+  MAINTENANCE = 'maintenance'
+}
+
 export interface Room {
   id?: number;
   number: string;
   type: RoomType;
   capacity: number;
   price: number;
-  isAvailable: boolean;
+  availability: RoomAvailability;
   description?: string;
   imageUrl?: string;
   createdAt?: Date;
@@ -16,7 +28,7 @@ export interface RoomCreateRequest {
   type: RoomType;
   capacity: number;
   price: number;
-  isAvailable: boolean;
+  availability: RoomAvailability;
   description?: string;
   imageUrl?: string;
 }
@@ -26,14 +38,7 @@ export interface RoomUpdateRequest {
   type?: RoomType;
   capacity?: number;
   price?: number;
-  isAvailable?: boolean;
+  availability?: RoomAvailability;
   description?: string;
   imageUrl?: string;
-}
-
-export enum RoomType {
-  SINGLE = 'Habitación Individual',
-  DOUBLE = 'Habitación Doble',
-  SUITE = 'Suite de Lujo',
-  // End of Selection
 }

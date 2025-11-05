@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Room } from '../../../models/room.model';
+import { Room, RoomAvailability } from '../../../models/room.model';
 import { RoomService } from '../../../services/room.service';
 import { LoginComponent } from '../../login/login.component';
 
@@ -91,16 +91,30 @@ export class AvailableRoomsComponent implements OnInit, OnChanges {
 
     this.loading = true;
     
-    // Por ahora, cargar todas las habitaciones
-    // En una implementación real, esto sería un endpoint específico para habitaciones disponibles
-    this.roomService.getAllRooms().subscribe({
+    // Intentar usar el endpoint de habitaciones disponibles primero
+    this.roomService.getAvailableRooms().subscribe({
       next: (rooms) => {
-        this.availableRooms = rooms;
+        // Filtrar solo las habitaciones con availability === 'available'
+        this.availableRooms = rooms.filter(room => room.availability === RoomAvailability.AVAILABLE);
         this.loading = false;
+        console.log('Habitaciones disponibles encontradas:', this.availableRooms.length);
       },
       error: (error) => {
-        console.error('Error loading rooms:', error);
-        this.loading = false;
+        console.warn('Error usando endpoint /available, usando getAllRooms como fallback:', error);
+        // Fallback: cargar todas y filtrar manualmente
+        this.roomService.getAllRooms().subscribe({
+          next: (rooms) => {
+            // Filtrar solo las habitaciones disponibles
+            this.availableRooms = rooms.filter(room => room.availability === RoomAvailability.AVAILABLE);
+            this.loading = false;
+            console.log('Habitaciones disponibles (fallback):', this.availableRooms.length);
+          },
+          error: (fallbackError) => {
+            console.error('Error loading rooms:', fallbackError);
+            this.loading = false;
+            this.availableRooms = [];
+          }
+        });
       }
     });
   }

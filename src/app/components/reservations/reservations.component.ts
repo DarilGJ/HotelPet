@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Reservation, ReservationCreateRequest, ReservationStatus } from '../../models/reservation.model';
 import { ReservationService } from '../../services/reservation.service';
 import { Customer } from '../../models/customer.model';
-import { Room } from '../../models/room.model';
+import { Room, RoomAvailability } from '../../models/room.model';
 import { Employee } from '../../models/employee.model';
 import { CustomerService } from '../../services/customer.service';
 import { RoomService } from '../../services/room.service';
@@ -50,6 +50,12 @@ export class ReservationsComponent implements OnInit {
     private employeeService: EmployeeService,
     private route: ActivatedRoute
   ) {}
+
+  // Método para recargar habitaciones (útil para actualizar disponibilidad)
+  private reloadRooms(): void {
+    // Solo recargar si es necesario para actualizar el estado
+    // El componente de habitaciones se actualizará cuando se recargue la página
+  }
 
   ngOnInit(): void {
     this.loadReservations();
@@ -121,9 +127,26 @@ export class ReservationsComponent implements OnInit {
   }
 
   loadRooms(): void {
-    this.roomService.getAllRooms().subscribe({
-      next: (rooms) => this.rooms = rooms,
-      error: (error) => console.error('Error loading rooms:', error)
+    // Intentar usar el endpoint de habitaciones disponibles primero
+    this.roomService.getAvailableRooms().subscribe({
+      next: (rooms) => {
+        // Filtrar solo las habitaciones con availability === 'available'
+        this.rooms = rooms.filter(room => room.availability === RoomAvailability.AVAILABLE);
+      },
+      error: (error) => {
+        console.warn('Error usando endpoint /available, usando getAllRooms como fallback:', error);
+        // Fallback: cargar todas y filtrar manualmente
+        this.roomService.getAllRooms().subscribe({
+          next: (rooms) => {
+            // Filtrar solo las habitaciones disponibles
+            this.rooms = rooms.filter(room => room.availability === RoomAvailability.AVAILABLE);
+          },
+          error: (fallbackError) => {
+            console.error('Error loading rooms:', fallbackError);
+            this.rooms = [];
+          }
+        });
+      }
     });
   }
 
