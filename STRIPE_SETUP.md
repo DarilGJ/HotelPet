@@ -138,10 +138,10 @@ STRIPE_PUBLISHABLE_KEY=pk_test_...
 
 ### 8. Seguridad
 
-- ✅ Nunca expongas tu clave secreta en el frontend
-- ✅ Usa HTTPS en producción
-- ✅ Valida los datos en el backend
-- ✅ Implementa webhooks para manejar eventos de Stripe
+- Nunca expongas tu clave secreta en el frontend
+- Usa HTTPS en producción
+- Valida los datos en el backend
+- Implementa webhooks para manejar eventos de Stripe
 
 ### 9. Webhooks (Opcional pero recomendado)
 

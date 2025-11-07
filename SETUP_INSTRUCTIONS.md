@@ -57,20 +57,20 @@ La aplicación estará disponible en `http://localhost:4200`
 
 ## Funcionalidades Implementadas
 
-### ✅ Gestión de Clientes
+### Gestión de Clientes
 - **Crear**: Formulario completo con todos los campos
 - **Listar**: Tabla con todos los clientes y sus datos
 - **Editar**: Formulario pre-llenado para modificar datos
 - **Eliminar**: Confirmación antes de eliminar
 - **Validación**: Campos requeridos y tipos de datos correctos
 
-### 🎨 Interfaz de Usuario
+### Interfaz de Usuario
 - **Diseño Responsivo**: Funciona en desktop y móvil
 - **Formulario en Filas**: Campos organizados en columnas
 - **Badges de Estado**: Indicadores visuales para el estado del cliente
 - **Estilos Modernos**: Interfaz limpia y profesional
 
-### 🔧 Configuración Técnica
+### Configuración Técnica
 - **Modelos TypeScript**: Interfaces bien definidas
 - **Servicios HTTP**: Comunicación con la API
 - **Manejo de Errores**: Logs en consola para debugging

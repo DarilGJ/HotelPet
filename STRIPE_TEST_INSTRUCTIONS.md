@@ -2,10 +2,10 @@
 
 ## Configuración Completada
 
-✅ **Stripe Service actualizado** - Integración completa con el backend
-✅ **Stripe Elements implementado** - Campo de tarjeta seguro
-✅ **Componente actualizado** - Flujo de pago real con Stripe
-✅ **Validaciones removidas** - Stripe maneja la validación de tarjetas
+**Stripe Service actualizado** - Integración completa con el backend
+**Stripe Elements implementado** - Campo de tarjeta seguro
+**Componente actualizado** - Flujo de pago real con Stripe
+**Validaciones removidas** - Stripe maneja la validación de tarjetas
 
 ## Cómo Probar
 

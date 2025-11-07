@@ -3,9 +3,9 @@
 ## Pasos para Verificar la Configuración de Stripe
 
 ### 1. Verificar Claves API
-- ✅ Clave pública configurada: `pk_test_51SLDxzQrbkx69jtXPeAsIlYbALOhpd2LFxfNYzU5YdNdb40zpVdvBPbPPsXSuZrpxS1xYhDbj38ymVluqDoTXKKR00mgInKiCY`
-- ✅ Formato correcto: Comienza con `pk_test_`
-- ⚠️ **IMPORTANTE**: Asegúrate de que tu backend tenga la clave secreta correspondiente (`sk_test_...`)
+- Clave pública configurada: `pk_test_51SLDxzQrbkx69jtXPeAsIlYbALOhpd2LFxfNYzU5YdNdb40zpVdvBPbPPsXSuZrpxS1xYhDbj38ymVluqDoTXKKR00mgInKiCY`
+- Formato correcto: Comienza con `pk_test_`
+- **IMPORTANTE**: Asegúrate de que tu backend tenga la clave secreta correspondiente (`sk_test_...`)
 
 ### 2. Verificar Backend
 Asegúrate de que tu backend tenga:
