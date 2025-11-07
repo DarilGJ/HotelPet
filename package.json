@@ -26,7 +26,7 @@
     "zone.js": "~0.14.0"
   },
   "devDependencies": {
-    "@stripe/stripe-angular": "^5.0.0",
+    "@stripe/stripe-js": "^5.0.0",
     "@angular-devkit/build-angular": "^17.0.0",
     "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
