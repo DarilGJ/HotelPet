@@ -91,7 +91,7 @@ export class StripeService {
       this.cardElement.mount(`#${elementId}`);
       
       // Agregar listener para errores
-      this.cardElement.on('change', (event) => {
+      this.cardElement.on('change', (event: any) => {
         const displayError = document.getElementById('card-errors');
         if (event.error) {
           if (displayError) {

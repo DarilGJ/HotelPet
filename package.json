@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@stripe/stripe-js": "^5.0.0",
     "@angular/animations": "^17.0.0",
     "@angular/common": "^17.0.0",
     "@angular/compiler": "^17.0.0",
@@ -25,6 +26,7 @@
     "zone.js": "~0.14.0"
   },
   "devDependencies": {
+    "@stripe/stripe-angular": "^5.0.0",
     "@angular-devkit/build-angular": "^17.0.0",
     "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
