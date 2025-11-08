@@ -35,7 +35,7 @@
             required>
             <option value="">Seleccionar habitación</option>
             <option *ngFor="let room of rooms" [value]="room.id">
-              {{ room.number }} - {{ room.type }} (${{ room.price | number:'1.2-2' }} por noche)
+              {{ room.number }} - {{ room.type }} (Q{{ room.price | number:'1.2-2' }} por noche)
             </option>
           </select>
           <div *ngIf="newReservation.roomId" class="mt-2 p-2 bg-blue-50 rounded">
@@ -43,7 +43,7 @@
               <strong>Habitación seleccionada:</strong> 
               {{ getSelectedRoom()?.number }} - {{ getSelectedRoom()?.type }}
               <br>
-              <strong>Precio por noche:</strong> ${{ getSelectedRoom()?.price | number:'1.2-2' }}
+              <strong>Precio por noche:</strong> Q{{ getSelectedRoom()?.price | number:'1.2-2' }}
               <br>
               <strong>Capacidad:</strong> {{ getSelectedRoom()?.capacity }} mascota(s)
             </small>
@@ -143,10 +143,10 @@
           <p><strong>Fecha de inicio:</strong> {{ newReservation.startDate | date:'full' }}</p>
           <p><strong>Fecha de fin:</strong> {{ newReservation.endDate | date:'full' }}</p>
           <p><strong>Noches:</strong> {{ getNights() }} noche(s)</p>
-          <p><strong>Precio por noche:</strong> ${{ getSelectedRoom()?.price | number:'1.2-2' }}</p>
-          <p><strong>Subtotal:</strong> ${{ newReservation.subTotal | number:'1.2-2' }}</p>
-          <p><strong>IVA (12%):</strong> ${{ newReservation.iva | number:'1.2-2' }}</p>
-          <p class="text-lg font-bold"><strong>Total:</strong> ${{ newReservation.total | number:'1.2-2' }}</p>
+          <p><strong>Precio por noche:</strong> Q{{ getSelectedRoom()?.price | number:'1.2-2' }}</p>
+          <p><strong>Subtotal:</strong> Q{{ newReservation.subTotal | number:'1.2-2' }}</p>
+          <p><strong>IVA (12%):</strong> Q{{ newReservation.iva | number:'1.2-2' }}</p>
+          <p class="text-lg font-bold"><strong>Total:</strong> Q{{ newReservation.total | number:'1.2-2' }}</p>
         </div>
       </div>
       
@@ -189,7 +189,7 @@
             required>
             <option value="">Seleccionar habitación</option>
             <option *ngFor="let room of rooms" [value]="room.id">
-              {{ room.number }} - {{ room.type }} (${{ room.price | number:'1.2-2' }} por noche)
+              {{ room.number }} - {{ room.type }} (Q{{ room.price | number:'1.2-2' }} por noche)
             </option>
           </select>
         </div>
@@ -377,7 +377,7 @@
             <td>{{ reservation.endDate | date:'short' }}</td>
             <td>{{ reservation.checkInDate | date:'short' || 'N/A' }}</td>
             <td>{{ reservation.checkOutDate | date:'short' || 'N/A' }}</td>
-            <td>${{ reservation.total | number:'1.2-2' }}</td>
+            <td>Q{{ reservation.total | number:'1.2-2' }}</td>
             <td>
               <span class="status-badge" [ngClass]="'status-' + reservation.status">
                 {{ reservation.status }}

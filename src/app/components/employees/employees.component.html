@@ -252,7 +252,7 @@
             <td>{{ employee.email }}</td>
             <td>{{ employee.phone }}</td>
             <td>{{ employee.position }}</td>
-            <td>${{ employee.salary | number:'1.2-2' }}</td>
+            <td>Q{{ employee.salary | number:'1.2-2' }}</td>
             <td>{{ employee.hiringDate | date:'short' }}</td>
             <td>
               <span class="status-badge" [ngClass]="employee.status === 'active' ? 'active' : 'inactive'">

@@ -30,9 +30,9 @@
           <p><strong>Fechas formateadas:</strong> {{ debugDates.startDateFormatted }} - {{ debugDates.endDateFormatted }}</p>
           <p><strong>Noches calculadas:</strong> {{ getNightsCount() }}</p>
           <p><strong>Habitación ID:</strong> {{ searchParams.roomId }}</p>
-          <p><strong>Subtotal:</strong> ${{ getSubtotal() }}</p>
-          <p><strong>IVA:</strong> ${{ getIva().toFixed(2) }}</p>
-          <p><strong>Total:</strong> ${{ getTotal().toFixed(2) }}</p>
+          <p><strong>Subtotal:</strong> Q{{ getSubtotal() }}</p>
+          <p><strong>IVA:</strong> Q{{ getIva().toFixed(2) }}</p>
+          <p><strong>Total:</strong> Q{{ getTotal().toFixed(2) }}</p>
           <p><strong>Cliente seleccionado:</strong> {{ selectedCustomerId }}</p>
           <p><strong>Stripe configurado:</strong> Integración con Stripe Elements activa</p>
         </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
               <p class="text-[#4c809a] text-sm font-normal leading-normal">Precio por Noche</p>
-              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ room?.price || 0 }}</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">Q{{ room?.price || 0 }}</p>
             </div>
           </div>
           <h3 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Cliente</h3>
@@ -142,7 +142,7 @@
                 (change)="toggleService(service.id)"
                 class="h-5 w-5 rounded border-[#cfdfe7] border-2 bg-transparent text-[#13a4ec] checked:bg-[#13a4ec] checked:border-[#13a4ec] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#cfdfe7] focus:outline-none"
               />
-              <p class="text-[#0d171b] text-base font-normal leading-normal">{{ service.name }} (+${{ service.price }})</p>
+              <p class="text-[#0d171b] text-base font-normal leading-normal">{{ service.name }} (+Q{{ service.price }})</p>
             </div>
           </div>
           <h3 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Información de Pago</h3>
@@ -198,29 +198,29 @@
           <div class="p-4 grid grid-cols-[20%_1fr] gap-x-6">
             <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
               <p class="text-[#4c809a] text-sm font-normal leading-normal">{{ room?.type || 'Habitación' }} ({{ getNightsCount() }} noches)</p>
-              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ room?.price || 0 }}/noche</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">Q{{ room?.price || 0 }}/noche</p>
             </div>
             <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
               <p class="text-[#4c809a] text-sm font-normal leading-normal">Subtotal (Habitación)</p>
-              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ (room?.price || 0) * getNightsCount() }}</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">Q{{ (room?.price || 0) * getNightsCount() }}</p>
             </div>
             <ng-container *ngFor="let service of additionalServices">
               <div *ngIf="service.selected" class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
                 <p class="text-[#4c809a] text-sm font-normal leading-normal">{{ service.name }}</p>
-                <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ service.price }}</p>
+                <p class="text-[#0d171b] text-sm font-normal leading-normal">Q{{ service.price }}</p>
               </div>
             </ng-container>
             <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
               <p class="text-[#4c809a] text-sm font-normal leading-normal">Subtotal</p>
-              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ getSubtotal() }}</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">Q{{ getSubtotal() }}</p>
             </div>
             <div class="col-span-2 grid grid-cols-subgrid border-t border-t-[#cfdfe7] py-5">
               <p class="text-[#4c809a] text-sm font-normal leading-normal">IVA (12%)</p>
-              <p class="text-[#0d171b] text-sm font-normal leading-normal">${{ getIva().toFixed(2) }}</p>
+              <p class="text-[#0d171b] text-sm font-normal leading-normal">Q{{ getIva().toFixed(2) }}</p>
             </div>
             <div class="col-span-2 grid grid-cols-subgrid border-t-2 border-t-[#13a4ec] py-5">
               <p class="text-[#0d171b] text-base font-bold leading-normal">Total</p>
-              <p class="text-[#0d171b] text-base font-bold leading-normal">${{ getTotal().toFixed(2) }}</p>
+              <p class="text-[#0d171b] text-base font-bold leading-normal">Q{{ getTotal().toFixed(2) }}</p>
             </div>
           </div>
 

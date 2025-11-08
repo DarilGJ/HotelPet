@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Room } from '../../../models/room.model';
 import { Service as PetService } from '../../../models/service.model';
@@ -27,7 +28,8 @@ export class SeleccionHabitacionComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +64,10 @@ export class SeleccionHabitacionComponent implements OnInit {
 
   capitalize(text: string): string {
     return text ? text.charAt(0).toUpperCase() + text.slice(1) : text;
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/']);
   }
 }
 

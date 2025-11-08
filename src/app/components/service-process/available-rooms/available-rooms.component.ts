@@ -156,23 +156,8 @@ export class AvailableRoomsComponent implements OnInit, OnChanges {
   }
 
   goToLogin(room?: Room){
-    // Si se pasa una habitación, guardar los parámetros de reserva para después del login
-    const queryParams: any = {};
-    
-    if (room) {
-      // Guardar todos los parámetros necesarios para la reserva
-      queryParams.returnUrl = '/confirm-reservation';
-      queryParams.roomId = room.id;
-      queryParams.roomType = room.type;
-      queryParams.roomPrice = room.price;
-      queryParams.startDate = this.searchForm.startDate || this.searchParams.startDate;
-      queryParams.endDate = this.searchForm.endDate || this.searchParams.endDate;
-    } else {
-      // Si no hay habitación seleccionada, guardar la URL actual para volver después del login
-      queryParams.returnUrl = this.router.url;
-    }
-    
-    this.router.navigate(['/login'], { queryParams });
+    // Navegar a la página de selección de habitaciones
+    this.router.navigate(['/seleccion-habitacion']);
   }
 
 }

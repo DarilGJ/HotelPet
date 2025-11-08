@@ -15,7 +15,7 @@ export class AppComponent {
   isPublicPage = false;
 
   // Rutas públicas que no deben mostrar navbar/footer administrativo
-  private publicRoutes = ['/', '/login', '/process', '/confirm-reservation', '/payment-success'];
+  private publicRoutes = ['/', '/login', '/process', '/confirm-reservation', '/payment-success', '/seleccion-habitacion'];
 
   constructor(private router: Router) {
     // Verificar la ruta inicial

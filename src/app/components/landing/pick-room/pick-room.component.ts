@@ -13,7 +13,7 @@ export class PickRoomComponent {
   constructor(private router: Router) {}
 
   goToRooms() {
-    this.router.navigate(['/rooms']);
+    this.router.navigate(['/seleccion-habitacion']);
   }
 
 }

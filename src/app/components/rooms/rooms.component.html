@@ -204,7 +204,7 @@
             <td>{{ room.number }}</td>
             <td>{{ room.type }}</td>
             <td>{{ room.capacity }}</td>
-            <td>${{ room.price | number:'1.2-2' }}</td>
+            <td>Q{{ room.price | number:'1.2-2' }}</td>
             <td>
               <span class="status-badge" [ngClass]="'status-' + getAvailabilityClass(getRoomAvailability(room))">
                 {{ getAvailabilityText(getRoomAvailability(room)) }}

@@ -166,7 +166,7 @@
             <td>{{ service.id }}</td>
             <td>{{ service.name }}</td>
             <td>{{ service.description }}</td>
-            <td>${{ service.price | number:'1.2-2' }}</td>
+            <td>Q{{ service.price | number:'1.2-2' }}</td>
             <td>{{ service.duration }} min</td>
             <td>
               <span class="status-badge" [ngClass]="service.isActive ? 'active' : 'inactive'">

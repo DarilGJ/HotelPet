@@ -1,0 +1,162 @@
+<div class="reports-container">
+  <div class="header">
+    <h1>Reportes de Reservas</h1>
+    <button class="btn btn-primary" (click)="exportToCSV()">
+      Exportar a CSV
+    </button>
+  </div>
+
+  <!-- Estadísticas Generales -->
+  <div class="stats-section">
+    <h2>Estadísticas Generales</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Total de Reservaciones</h3>
+        <p class="stat-value">{{ totalReservations }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Ingresos Totales</h3>
+        <p class="stat-value">Q{{ totalRevenue | number:'1.2-2' }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Valor Promedio</h3>
+        <p class="stat-value">Q{{ averageReservationValue | number:'1.2-2' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reservaciones por Estado -->
+  <div class="stats-section">
+    <h2>Reservaciones por Estado</h2>
+    <div class="status-stats">
+      <div *ngFor="let status of reservationStatuses" class="status-item">
+        <span class="status-label">{{ getStatusLabel(status) }}:</span>
+        <span class="status-count">{{ reservationsByStatus.get(status) || 0 }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reservaciones por Mes -->
+  <div class="stats-section">
+    <h2>Reservaciones por Mes</h2>
+    <div class="month-stats">
+      <div *ngFor="let entry of reservationsByMonth | keyvalue" class="month-item">
+        <span class="month-label">{{ formatMonthKey(entry.key) }}:</span>
+        <span class="month-count">{{ entry.value }} reservaciones</span>
+        <span class="month-revenue">Q{{ revenueByMonth.get(entry.key) || 0 | number:'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <h2>Filtros</h2>
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label for="filterStatus">Estado:</label>
+        <select id="filterStatus" [(ngModel)]="filterStatus" (change)="applyFilters()">
+          <option value="all">Todos</option>
+          <option *ngFor="let status of reservationStatuses" [value]="status">
+            {{ getStatusLabel(status) }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filterStartDate">Fecha Inicio Desde:</label>
+        <input 
+          type="date" 
+          id="filterStartDate" 
+          [(ngModel)]="filterStartDate" 
+          (change)="applyFilters()"
+        />
+      </div>
+
+      <div class="filter-group">
+        <label for="filterEndDate">Fecha Fin Hasta:</label>
+        <input 
+          type="date" 
+          id="filterEndDate" 
+          [(ngModel)]="filterEndDate" 
+          (change)="applyFilters()"
+        />
+      </div>
+
+      <div class="filter-group">
+        <label for="filterCustomerName">Cliente:</label>
+        <input 
+          type="text" 
+          id="filterCustomerName" 
+          [(ngModel)]="filterCustomerName" 
+          (input)="applyFilters()"
+          placeholder="Buscar por nombre..."
+        />
+      </div>
+
+      <div class="filter-group">
+        <label for="filterRoomType">Tipo de Habitación:</label>
+        <select id="filterRoomType" [(ngModel)]="filterRoomType" (change)="applyFilters()">
+          <option value="all">Todos</option>
+          <option *ngFor="let type of roomTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <button class="btn btn-secondary" (click)="resetFilters()">
+          Limpiar Filtros
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de Reservaciones -->
+  <div class="table-section">
+    <h2>Reservaciones ({{ filteredReservations.length }})</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Habitación</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Estado</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reservation of filteredReservations">
+            <td>{{ reservation.id }}</td>
+            <td>
+              {{ reservation.customer?.name || 'N/A' }} 
+              {{ reservation.customer?.lastName || '' }}
+            </td>
+            <td>
+              {{ reservation.room?.number || 'N/A' }} - 
+              {{ reservation.room?.type || 'N/A' }}
+            </td>
+            <td>{{ reservation.startDate | date:'short' }}</td>
+            <td>{{ reservation.endDate | date:'short' }}</td>
+            <td>{{ reservation.checkInDate ? (reservation.checkInDate | date:'short') : 'N/A' }}</td>
+            <td>{{ reservation.checkOutDate ? (reservation.checkOutDate | date:'short') : 'N/A' }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="'status-' + reservation.status">
+                {{ getStatusLabel(reservation.status) }}
+              </span>
+            </td>
+            <td>Q{{ reservation.total | number:'1.2-2' }}</td>
+          </tr>
+          <tr *ngIf="filteredReservations.length === 0">
+            <td colspan="9" class="no-data">No se encontraron reservaciones con los filtros aplicados</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

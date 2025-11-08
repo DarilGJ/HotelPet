@@ -2,10 +2,13 @@
 
 <main class="font-display bg-background-light dark:bg-background-dark min-h-screen">
   <div class="layout-container flex flex-col max-w-6xl mx-auto px-4 sm:px-6 md:px-8 py-6">
-    <div class="flex flex-wrap gap-2 p-2">
-      <a class="text-text-subtle-light dark:text-text-subtle-dark text-sm font-medium leading-normal hover:text-soft-blue" routerLink="/">Home</a>
+    <div class="flex flex-wrap gap-2 p-2 items-center">
+      <a class="text-text-subtle-light dark:text-text-subtle-dark text-sm font-medium leading-normal hover:text-soft-blue cursor-pointer" (click)="goToHome()">Home</a>
       <span class="text-text-subtle-light dark:text-text-subtle-dark text-sm font-medium leading-normal">/</span>
       <span class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">Rooms & Services</span>
+      <button class="ml-auto flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-soft-blue text-white text-sm font-bold leading-normal hover:bg-[#82C0E4] transition-colors" (click)="goToHome()">
+        Volver a Inicio
+      </button>
     </div>
 
     <div class="flex flex-wrap justify-between gap-3 p-2">
@@ -39,7 +42,7 @@
                 <li>Estado: {{ room.availability }}</li>
               </ul>
               <div class="flex items-center justify-between mt-2">
-                <p class="text-text-light dark:text-text-dark text-base font-bold">${{ room.price }} / noche</p>
+                <p class="text-text-light dark:text-text-dark text-base font-bold">Q{{ room.price }} / noche</p>
                 <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-soft-blue text-white text-sm font-bold leading-normal hover:bg-[#82C0E4] transition-colors">Reservar</button>
               </div>
             </div>
@@ -61,7 +64,7 @@
             </div>
             <p class="text-text-light dark:text-text-dark text-lg font-bold">{{ srv.name }}</p>
             <p class="text-text-subtle-light dark:text-text-subtle-dark text-sm">{{ srv.description }}</p>
-            <p class="font-bold text-text-light dark:text-text-dark mt-2">${{ srv.price }}</p>
+            <p class="font-bold text-text-light dark:text-text-dark mt-2">Q{{ srv.price }}</p>
           </div>
         </ng-container>
         <ng-template #loadingServices>

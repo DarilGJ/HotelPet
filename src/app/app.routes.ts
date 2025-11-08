@@ -50,6 +50,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/reservations/reservations.component').then(m => m.ReservationsComponent)
   },
   {
+    path: 'reservation-reports',
+    canMatch: [authGuard],
+    loadComponent: () => import('./components/reservation-reports/reservation-reports.component').then(m => m.ReservationReportsComponent)
+  },
+  {
     path: 'confirm-reservation',
     loadComponent: () => import('./components/confirm-reservation/confirm-reservation.component').then(m => m.ConfirmReservationComponent)
   },

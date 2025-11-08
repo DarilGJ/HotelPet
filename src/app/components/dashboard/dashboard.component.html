@@ -79,7 +79,7 @@
           <ng-template #employeeNotAvailable>
             <p><strong>Empleado:</strong> <span class="text-red-500">ID: {{ reservation.employeeId }} - No disponible</span></p>
           </ng-template>
-          <p><strong>Total:</strong> ${{ reservation.total | number:'1.2-2' }}</p>
+          <p><strong>Total:</strong> Q{{ reservation.total | number:'1.2-2' }}</p>
           <p><strong>Estado:</strong> {{ reservation.status }}</p>
         </div>
         <div class="reservation-status">
