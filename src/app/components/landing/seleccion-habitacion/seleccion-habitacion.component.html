@@ -13,13 +13,13 @@
 
     <div class="flex flex-wrap justify-between gap-3 p-2">
       <div class="flex min-w-72 flex-col gap-2">
-        <p class="text-text-light dark:text-text-dark text-3xl md:text-4xl font-extrabold leading-tight tracking-[-0.033em]">A Comfy Stay for Your Best Friend</p>
+        <p class="text-text-light dark:text-text-dark text-3xl md:text-4xl font-extrabold leading-tight tracking-[-0.033em]">Una estancia cómoda para tu mejor amigo</p>
         <p class="text-text-subtle-light dark:text-text-subtle-dark text-base leading-normal">Explora nuestras habitaciones y servicios pensados para el confort de tu mascota.</p>
       </div>
     </div>
 
     <section class="w-full py-4">
-      <h2 class="text-text-light dark:text-text-dark text-[20px] md:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 pb-3">Our Rooms</h2>
+      <h2 class="text-text-light dark:text-text-dark text-[20px] md:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 pb-3">Habitaciones</h2>
 
       <!-- Filtros por tipo -->
       <div class="flex flex-wrap items-center gap-2 px-2 pb-4">
@@ -33,7 +33,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ng-container *ngIf="filteredRooms$ | async as rooms; else loadingRooms">
           <div *ngFor="let room of rooms" class="flex flex-col items-stretch justify-start rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.1)] bg-white dark:bg-background-dark overflow-hidden">
-            <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover" [attr.data-alt]="room.description || 'Room'" [style.background-image]="'url(' + (room.imageUrl || 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=1200&auto=format&fit=crop') + ')'"></div>
+            <div class="w-full bg-center bg-no-repeat aspect-[16/10] bg-cover" [attr.data-alt]="room.description || 'Room'" [style.background-image]="'url(' + (room.imageUrl || 'https://i.pinimg.com/736x/93/3c/af/933caf5405b543458115786a35686731.jpg') + ')'"></div>
             <div class="flex w-full grow flex-col gap-3 p-5">
               <p class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">{{ getTypeLabel(room.type) }} Room</p>
               <p class="text-text-subtle-light dark:text-text-subtle-dark text-sm leading-normal">{{ room.description || 'Espacio cómodo y seguro para tu mascota.' }}</p>
@@ -55,7 +55,7 @@
     </section>
 
     <section class="w-full py-6">
-      <h2 class="text-text-light dark:text-text-dark text-[20px] md:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 pb-3">Pamper Your Pet</h2>
+      <h2 class="text-text-light dark:text-text-dark text-[20px] md:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 pb-3">Mima a tus Mascotas</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-2">
         <ng-container *ngIf="services$ | async as services; else loadingServices">
           <div *ngFor="let srv of services" class="flex flex-col items-center text-center gap-3 p-6 rounded-xl bg-white dark:bg-background-dark shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
@@ -75,8 +75,8 @@
 
     <section class="w-full py-10 px-2">
       <div class="flex flex-col items-center justify-center text-center gap-4 p-8 rounded-xl bg-soft-blue/20 dark:bg-soft-blue/10">
-        <h3 class="text-text-light dark:text-text-dark text-2xl md:text-3xl font-extrabold tracking-tight">Ready to Treat Your Pet?</h3>
-        <p class="text-text-subtle-light dark:text-text-subtle-dark max-w-md">Book their stay today y empieza la experiencia.</p>
+        <h3 class="text-text-light dark:text-text-dark text-2xl md:text-3xl font-extrabold tracking-tight">Listo para consentir a tu mascota?</h3>
+        <p class="text-text-subtle-light dark:text-text-subtle-dark max-w-md">Reserva su estacia hoy y que empiece la experiencia.</p>
         <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-8 mt-2 bg-primary text-text-light text-base font-bold leading-normal tracking-[0.015em] hover:bg-accent-orange transition-colors">Book Your Pet's Stay</button>
       </div>
     </section>
