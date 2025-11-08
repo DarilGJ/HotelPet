@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificación de Estilos - Pet Hotel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f6fa;
+    }
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .success { color: #27ae60; }
+    .error { color: #e74c3c; }
+    .warning { color: #f39c12; }
+    h1 { color: #2c3e50; }
+    h2 { color: #3498db; margin-top: 0; }
+    .test-item {
+      margin: 10px 0;
+      padding: 10px;
+      border-left: 4px solid #3498db;
+      background: #f8f9fa;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Verificación de Estilos y Recursos</h1>
+  
+  <div class="test-section">
+    <h2>1. Verificación de Tailwind CSS</h2>
+    <div class="test-item">
+      <p><strong>Clases Tailwind:</strong></p>
+      <div class="bg-primary text-white p-4 rounded-lg mb-2">bg-primary (debe ser amarillo/amber)</div>
+      <div class="bg-secondary text-white p-4 rounded-lg mb-2">bg-secondary (debe ser verde/emerald)</div>
+      <div class="bg-background-light p-4 rounded-lg mb-2">bg-background-light (debe ser gris claro)</div>
+      <div class="text-text-light p-4 bg-white rounded-lg">text-text-light (debe ser gris oscuro)</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>2. Verificación de Estilos Globales (styles.scss)</h2>
+    <div class="test-item">
+      <button class="btn btn-primary">Botón Primary</button>
+      <button class="btn btn-secondary">Botón Secondary</button>
+      <button class="btn btn-success">Botón Success</button>
+      <button class="btn btn-danger">Botón Danger</button>
+    </div>
+    <div class="test-item">
+      <div class="alert alert-success">Alerta de éxito</div>
+      <div class="alert alert-danger">Alerta de error</div>
+      <div class="alert alert-warning">Alerta de advertencia</div>
+      <div class="alert alert-info">Alerta de información</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>3. Verificación de Fuentes</h2>
+    <div class="test-item">
+      <p style="font-family: 'Poppins', sans-serif;">Fuente Poppins (debe cargarse desde Google Fonts)</p>
+      <p style="font-family: 'Roboto', sans-serif;">Fuente Roboto (debe cargarse desde Google Fonts)</p>
+      <span class="material-icons">home</span> Material Icons (debe cargarse desde Google Fonts)
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>4. Verificación de Rutas de Assets</h2>
+    <div class="test-item">
+      <p><strong>Favicon:</strong> <img src="/favicon.ico" alt="favicon" style="width: 16px; height: 16px;" onerror="this.style.border='2px solid red'" onload="this.style.border='2px solid green'"></p>
+      <p><strong>Assets path:</strong> Debe estar disponible en /assets/</p>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>5. Verificación de Base Href</h2>
+    <div class="test-item">
+      <p><strong>Base href actual:</strong> <code id="baseHref"></code></p>
+      <p><strong>URL actual:</strong> <code id="currentUrl"></code></p>
+      <p class="success" id="baseCheck">✓ Verificando...</p>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>6. Verificación de Archivos CSS/JS</h2>
+    <div class="test-item">
+      <p><strong>Archivos CSS cargados:</strong></p>
+      <ul id="cssFiles"></ul>
+      <p><strong>Archivos JS cargados:</strong></p>
+      <ul id="jsFiles"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Verificar base href
+    const baseTag = document.querySelector('base');
+    const baseHref = baseTag ? baseTag.getAttribute('href') : 'no encontrado';
+    document.getElementById('baseHref').textContent = baseHref;
+    document.getElementById('currentUrl').textContent = window.location.href;
+    
+    if (baseHref === '/') {
+      document.getElementById('baseCheck').textContent = '✅ Base href está configurado correctamente como "/"';
+      document.getElementById('baseCheck').className = 'success';
+    } else {
+      document.getElementById('baseCheck').textContent = '❌ Base href no está configurado correctamente. Debe ser "/"';
+      document.getElementById('baseCheck').className = 'error';
+    }
+
+    // Listar archivos CSS
+    const cssFiles = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+      .map(link => link.href)
+      .filter(href => !href.includes('fonts.googleapis.com') && !href.includes('fonts.gstatic.com'));
+    
+    const cssList = document.getElementById('cssFiles');
+    if (cssFiles.length > 0) {
+      cssFiles.forEach(href => {
+        const li = document.createElement('li');
+        li.textContent = href;
+        li.style.color = 'green';
+        cssList.appendChild(li);
+      });
+    } else {
+      const li = document.createElement('li');
+      li.textContent = 'No se encontraron archivos CSS locales';
+      li.style.color = 'red';
+      cssList.appendChild(li);
+    }
+
+    // Listar archivos JS
+    const jsFiles = Array.from(document.querySelectorAll('script[src]'))
+      .map(script => script.src);
+    
+    const jsList = document.getElementById('jsFiles');
+    if (jsFiles.length > 0) {
+      jsFiles.forEach(src => {
+        const li = document.createElement('li');
+        li.textContent = src;
+        li.style.color = 'green';
+        jsList.appendChild(li);
+      });
+    } else {
+      const li = document.createElement('li');
+      li.textContent = 'No se encontraron archivos JS';
+      li.style.color = 'orange';
+      jsList.appendChild(li);
+    }
+  </script>
+</body>
+</html>
+
