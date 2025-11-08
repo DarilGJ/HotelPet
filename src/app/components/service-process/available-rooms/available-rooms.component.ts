@@ -157,7 +157,7 @@ export class AvailableRoomsComponent implements OnInit, OnChanges {
 
   goToLogin(room?: Room){
     // Navegar a la página de selección de habitaciones
-    this.router.navigate(['/seleccion-habitacion']);
+    this.router.navigate(['/login'], { queryParams: { returnUrl: '/confirm-reservation', room: room } });
   }
 
 }
