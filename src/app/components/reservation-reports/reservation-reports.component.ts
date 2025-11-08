@@ -46,18 +46,34 @@ export class ReservationReportsComponent implements OnInit {
   }
 
   loadReservations(): void {
-    this.reservationService.getAllReservations().subscribe({
-      next: (reservations) => {
-        this.reservations = reservations.map(res => ({
-          ...res,
-          startDate: new Date(res.startDate),
-          endDate: new Date(res.endDate),
-          checkInDate: res.checkInDate ? new Date(res.checkInDate) : undefined,
-          checkOutDate: res.checkOutDate ? new Date(res.checkOutDate) : undefined
-        }));
+    // Convertir el status del enum a mayúsculas para el backend
+    const statusMap: { [key: string]: string } = {
+      [ReservationStatus.PENDING]: 'PENDING',
+      [ReservationStatus.CONFIRMED]: 'CONFIRMED',
+      [ReservationStatus.IN_PROGRESS]: 'IN_PROGRESS',
+      [ReservationStatus.COMPLETED]: 'COMPLETED',
+      [ReservationStatus.CANCELED]: 'CANCELED'
+    };
+
+    const filters = {
+      status: this.filterStatus !== 'all' ? statusMap[this.filterStatus] || this.filterStatus : undefined,
+      startDate: this.filterStartDate || undefined,
+      endDate: this.filterEndDate || undefined,
+      customerName: this.filterCustomerName || undefined,
+      roomType: this.filterRoomType !== 'all' ? this.filterRoomType : undefined
+    };
+
+    this.reservationService.getReservationReports(filters).subscribe({
+      next: (response) => {
+        // Las reservaciones ya están procesadas por el servicio
+        this.reservations = response.reservations;
         this.filteredReservations = [...this.reservations];
-        this.calculateStatistics();
-        this.extractRoomTypes();
+        
+        // Usar las estadísticas del backend
+        this.updateStatisticsFromBackend(response.statistics);
+        
+        // Usar los tipos de habitación del backend
+        this.roomTypes = response.filterOptions.roomTypes;
       },
       error: (error) => {
         console.error('Error loading reservations:', error);
@@ -65,59 +81,52 @@ export class ReservationReportsComponent implements OnInit {
     });
   }
 
-  extractRoomTypes(): void {
-    const types = new Set<string>();
-    this.reservations.forEach(res => {
-      if (res.room?.type) {
-        types.add(res.room.type);
-      }
-    });
-    this.roomTypes = Array.from(types);
+  updateStatisticsFromBackend(statistics: any): void {
+    // Actualizar estadísticas generales
+    this.totalReservations = Number(statistics.totalReservations) || 0;
+    this.totalRevenue = Number(statistics.totalRevenue) || 0;
+    this.averageReservationValue = Number(statistics.averageReservationValue) || 0;
+    
+    // Actualizar reservaciones por estado
+    this.reservationsByStatus.clear();
+    if (statistics.reservationsByStatus) {
+      // El backend devuelve status en mayúsculas, pero necesitamos mapearlos al enum
+      const statusMap: { [key: string]: ReservationStatus } = {
+        'PENDING': ReservationStatus.PENDING,
+        'CONFIRMED': ReservationStatus.CONFIRMED,
+        'IN_PROGRESS': ReservationStatus.IN_PROGRESS,
+        'COMPLETED': ReservationStatus.COMPLETED,
+        'CANCELED': ReservationStatus.CANCELED
+      };
+      
+      Object.keys(statistics.reservationsByStatus).forEach(key => {
+        const status = statusMap[key];
+        if (status) {
+          this.reservationsByStatus.set(status, Number(statistics.reservationsByStatus[key]) || 0);
+        }
+      });
+    }
+    
+    // Actualizar reservaciones e ingresos por mes
+    this.reservationsByMonth.clear();
+    this.revenueByMonth.clear();
+    
+    if (statistics.reservationsByMonth) {
+      Object.keys(statistics.reservationsByMonth).forEach(monthKey => {
+        this.reservationsByMonth.set(monthKey, Number(statistics.reservationsByMonth[monthKey]) || 0);
+      });
+    }
+    
+    if (statistics.revenueByMonth) {
+      Object.keys(statistics.revenueByMonth).forEach(monthKey => {
+        this.revenueByMonth.set(monthKey, Number(statistics.revenueByMonth[monthKey]) || 0);
+      });
+    }
   }
 
   applyFilters(): void {
-    this.filteredReservations = this.reservations.filter(reservation => {
-      // Filtro por estado
-      if (this.filterStatus !== 'all' && reservation.status !== this.filterStatus) {
-        return false;
-      }
-
-      // Filtro por fecha de inicio
-      if (this.filterStartDate) {
-        const startDate = new Date(this.filterStartDate);
-        if (new Date(reservation.startDate) < startDate) {
-          return false;
-        }
-      }
-
-      // Filtro por fecha de fin
-      if (this.filterEndDate) {
-        const endDate = new Date(this.filterEndDate);
-        endDate.setHours(23, 59, 59, 999);
-        if (new Date(reservation.endDate) > endDate) {
-          return false;
-        }
-      }
-
-      // Filtro por nombre de cliente
-      if (this.filterCustomerName) {
-        const customerName = reservation.customer?.name?.toLowerCase() || '';
-        const customerLastName = reservation.customer?.lastName?.toLowerCase() || '';
-        const searchTerm = this.filterCustomerName.toLowerCase();
-        if (!customerName.includes(searchTerm) && !customerLastName.includes(searchTerm)) {
-          return false;
-        }
-      }
-
-      // Filtro por tipo de habitación
-      if (this.filterRoomType !== 'all' && reservation.room?.type !== this.filterRoomType) {
-        return false;
-      }
-
-      return true;
-    });
-    
-    this.calculateStatistics();
+    // Recargar las reservaciones con los nuevos filtros desde el backend
+    this.loadReservations();
   }
 
   resetFilters(): void {
@@ -126,43 +135,10 @@ export class ReservationReportsComponent implements OnInit {
     this.filterEndDate = '';
     this.filterCustomerName = '';
     this.filterRoomType = 'all';
-    this.filteredReservations = [...this.reservations];
-    this.calculateStatistics();
+    // Recargar sin filtros
+    this.loadReservations();
   }
 
-  calculateStatistics(): void {
-    const filtered = this.filteredReservations;
-    
-    // Total de reservaciones
-    this.totalReservations = filtered.length;
-    
-    // Ingresos totales
-    this.totalRevenue = filtered.reduce((sum, res) => sum + (res.total || 0), 0);
-    
-    // Valor promedio
-    this.averageReservationValue = this.totalReservations > 0 
-      ? this.totalRevenue / this.totalReservations 
-      : 0;
-    
-    // Reservaciones por estado
-    this.reservationsByStatus.clear();
-    filtered.forEach(res => {
-      const count = this.reservationsByStatus.get(res.status) || 0;
-      this.reservationsByStatus.set(res.status, count + 1);
-    });
-    
-    // Reservaciones e ingresos por mes
-    this.reservationsByMonth.clear();
-    this.revenueByMonth.clear();
-    filtered.forEach(res => {
-      const monthKey = this.getMonthKey(res.startDate);
-      const resCount = this.reservationsByMonth.get(monthKey) || 0;
-      this.reservationsByMonth.set(monthKey, resCount + 1);
-      
-      const revAmount = this.revenueByMonth.get(monthKey) || 0;
-      this.revenueByMonth.set(monthKey, revAmount + (res.total || 0));
-    });
-  }
 
   getMonthKey(date: Date): string {
     const year = date.getFullYear();

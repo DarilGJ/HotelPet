@@ -58,3 +58,24 @@ export interface ReservationUpdateRequest {
   roomId?: number;
   employeeId?: number;
 }
+
+export interface ReservationReportsResponse {
+  reservations: Reservation[];
+  statistics: {
+    totalReservations: number;
+    totalRevenue: number;
+    averageReservationValue: number;
+    reservationsByStatus: {
+      PENDING?: number;
+      CONFIRMED?: number;
+      IN_PROGRESS?: number;
+      COMPLETED?: number;
+      CANCELED?: number;
+    };
+    reservationsByMonth: { [key: string]: number };
+    revenueByMonth: { [key: string]: number };
+  };
+  filterOptions: {
+    roomTypes: string[];
+  };
+}
